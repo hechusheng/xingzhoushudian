@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="sc-admin-server_main" target="1.8" />
+      <module name="sc-admin-server_test" target="1.8" />
+      <module name="sc-api-gateway_main" target="1.8" />
+      <module name="sc-api-gateway_test" target="1.8" />
+      <module name="sc-common-base_main" target="1.8" />
+      <module name="sc-common-base_test" target="1.8" />
+      <module name="sc-common-client_main" target="1.8" />
+      <module name="sc-common-client_test" target="1.8" />
+      <module name="sc-common-log_main" target="1.8" />
+      <module name="sc-common-log_test" target="1.8" />
+      <module name="sc-common-util_main" target="1.8" />
+      <module name="sc-common-util_test" target="1.8" />
+      <module name="sc-common_main" target="1.8" />
+      <module name="sc-common_test" target="1.8" />
+      <module name="sc-config-server_main" target="1.8" />
+      <module name="sc-config-server_test" target="1.8" />
+      <module name="sc-core_main" target="1.8" />
+      <module name="sc-core_test" target="1.8" />
+      <module name="sc-eureka-server_main" target="1.8" />
+      <module name="sc-eureka-server_test" target="1.8" />
+      <module name="sc-job_main" target="1.8" />
+      <module name="sc-job_test" target="1.8" />
+      <module name="sc-log_main" target="1.8" />
+      <module name="sc-log_test" target="1.8" />
+      <module name="sc-monitor_main" target="1.8" />
+      <module name="sc-monitor_test" target="1.8" />
+      <module name="sc-project_main" target="1.8" />
+      <module name="sc-project_test" target="1.8" />
+      <module name="sc-provider-api_main" target="1.8" />
+      <module name="sc-provider-api_test" target="1.8" />
+      <module name="sc-provider_main" target="1.8" />
+      <module name="sc-provider_test" target="1.8" />
+      <module name="sc-security-client_main" target="1.8" />
+      <module name="sc-security-client_test" target="1.8" />
+      <module name="sc-security-core_main" target="1.8" />
+      <module name="sc-security-core_test" target="1.8" />
+      <module name="sc-security-uaa_main" target="1.8" />
+      <module name="sc-security-uaa_test" target="1.8" />
+      <module name="sc-security_main" target="1.8" />
+      <module name="sc-security_test" target="1.8" />
+      <module name="sc-service-api_main" target="1.8" />
+      <module name="sc-service-api_test" target="1.8" />
+      <module name="sc-service_main" target="1.8" />
+      <module name="sc-service_test" target="1.8" />
+      <module name="sc-shardingjdbc_main" target="1.8" />
+      <module name="sc-shardingjdbc_test" target="1.8" />
+      <module name="sc-support_main" target="1.8" />
+      <module name="sc-support_test" target="1.8" />
+      <module name="sc-web-auth_main" target="1.8" />
+      <module name="sc-web-auth_test" target="1.8" />
+      <module name="sc-web-static_main" target="1.8" />
+      <module name="sc-web-static_test" target="1.8" />
+      <module name="sc-web_main" target="1.8" />
+      <module name="sc-web_test" target="1.8" />
+      <module name="sc-xzsd-a_main" target="1.8" />
+      <module name="sc-xzsd-a_test" target="1.8" />
+      <module name="sc-xzsd-app_main" target="1.8" />
+      <module name="sc-xzsd-app_test" target="1.8" />
+      <module name="sc-xzsd-pc_main" target="1.8" />
+      <module name="sc-xzsd-pc_test" target="1.8" />
+      <module name="sc-zipkin-server_main" target="1.8" />
+      <module name="sc-zipkin-server_test" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

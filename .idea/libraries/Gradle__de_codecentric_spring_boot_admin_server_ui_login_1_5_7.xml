@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: de.codecentric:spring-boot-admin-server-ui-login:1.5.7">
+    <CLASSES>
+      <root url="jar://D:/gradle-5.6.4/caches/modules-2/files-2.1/de.codecentric/spring-boot-admin-server-ui-login/1.5.7/ff2668f53e2115e6a68bc4b5ef48bffadbfcd589/spring-boot-admin-server-ui-login-1.5.7.jar!/" />
+      <root url="jar://D:/gradle/gradle-5.6.4/caches/modules-2/files-2.1/de.codecentric/spring-boot-admin-server-ui-login/1.5.7/ff2668f53e2115e6a68bc4b5ef48bffadbfcd589/spring-boot-admin-server-ui-login-1.5.7.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://D:/gradle-5.6.4/caches/modules-2/files-2.1/de.codecentric/spring-boot-admin-server-ui-login/1.5.7/9f02feb08f4f5fa5f16b78892895c712b09ed50b/spring-boot-admin-server-ui-login-1.5.7-sources.jar!/" />
+      <root url="jar://D:/gradle/gradle-5.6.4/caches/modules-2/files-2.1/de.codecentric/spring-boot-admin-server-ui-login/1.5.7/9f02feb08f4f5fa5f16b78892895c712b09ed50b/spring-boot-admin-server-ui-login-1.5.7-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

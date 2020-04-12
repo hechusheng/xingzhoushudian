@@ -1,0 +1,71 @@
+security:
+  oauth2:
+    resource:
+      prefer-token-info: true
+      token-info-uri: http://sc-security-uaa/oauth/token
+      jwt:
+        key-value: secret
+#        key-uri: http://sc-security-uaa/oauth/token_key
+    client:
+      client-id: client
+      client-secret: client
+      grant-type: client_credentials
+      access-token-uri: http://sc-security-uaa/oauth/token
+      user-authorization-uri: http://sc-security-uaa/oauth/authorize
+  sessions: stateless
+spring:
+  redis:
+    host: 47.92.101.6
+    password: dnc.2009
+    database: 9
+  datasource:
+    name: dataSource
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://10.100.12.20:4506/xzsdcs?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: 123456
+    druid:
+      initialSize: 1
+      minIdle: 1
+      maxActive: 20
+      maxWait: 60000
+      validationQuery: select 'x' from dual
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      filters: stat,slf4j
+      web-stat-filter:
+        exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.woff2,*.ico,/druid/*,/swagger*,/v2/api-docs'
+      stat-view-servlet:
+        enabled: true
+        login-username: admin
+        login-password: dnc.2009
+      filter:
+        stat:
+          enabled: true
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: true
+        slf4j:
+          enabled: true
+          statement-executable-sql-log-enable: false
+          connection-log-enabled: false
+          result-set-log-enabled: false
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/**/*Mapper.xml
+  config-location: classpath:mybatis/mybatis-config.xml
+sc:
+  cloud:
+    dev: true
+    task:
+      core-pool-size: 20
+      max-pool-size: 50
+      queue-capacity: 200
+      keep-alive-seconds: 3000
+      thread-name-prefix: sc-task-executor-
+    swagger:
+      enabled: true
+      description: 'spring cloud 模板项目'

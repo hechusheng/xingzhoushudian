@@ -1,0 +1,15 @@
+apply plugin: 'java'
+
+dependencies {
+    compile 'io.springfox:springfox-swagger2:2.8.0',
+            rootProject.ext.dependencies['gson'],
+            project(":sc-common:sc-common-base")
+
+    compileOnly 'javax.servlet:javax.servlet-api:3.1.0'
+
+    compileOnly "org.springframework.boot:spring-boot-configuration-processor"
+
+}
+
+compileJava.dependsOn(processResources)
+

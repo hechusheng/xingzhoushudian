@@ -1,0 +1,20 @@
+dependencyManagement {
+    imports {
+        mavenBom "de.codecentric:spring-boot-admin:${springBootAdminVersion}"
+    }
+}
+dependencies {
+    compile 'org.springframework.cloud:spring-cloud-starter-eureka',
+            'org.springframework.cloud:spring-cloud-starter-security',
+            "org.springframework.cloud:spring-cloud-starter-hystrix-dashboard",
+            "org.springframework.cloud:spring-cloud-starter-turbine",
+            "de.codecentric:spring-boot-admin-server:${springBootAdminVersion}",
+            "de.codecentric:spring-boot-admin-server-ui:${springBootAdminVersion}",
+            "de.codecentric:spring-boot-admin-server-ui-login:${springBootAdminVersion}",
+            "de.codecentric:spring-boot-admin-server-ui-hystrix:${springBootAdminVersion}",
+            "de.codecentric:spring-boot-admin-server-ui-activiti:${springBootAdminVersion}",
+            "de.codecentric:spring-boot-admin-server-ui-turbine:${springBootAdminVersion}",
+            'org.jolokia:jolokia-core'
+
+
+}

@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: de.codecentric:spring-boot-admin-server-ui-hystrix:1.5.7">
+    <CLASSES>
+      <root url="jar://D:/gradle-5.6.4/caches/modules-2/files-2.1/de.codecentric/spring-boot-admin-server-ui-hystrix/1.5.7/2368b14929686a4d3f7c17599a5b7d0080d2bede/spring-boot-admin-server-ui-hystrix-1.5.7.jar!/" />
+      <root url="jar://D:/gradle/gradle-5.6.4/caches/modules-2/files-2.1/de.codecentric/spring-boot-admin-server-ui-hystrix/1.5.7/2368b14929686a4d3f7c17599a5b7d0080d2bede/spring-boot-admin-server-ui-hystrix-1.5.7.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://D:/gradle-5.6.4/caches/modules-2/files-2.1/de.codecentric/spring-boot-admin-server-ui-hystrix/1.5.7/2e30de3053f6000b91132cafd4486818937ba5eb/spring-boot-admin-server-ui-hystrix-1.5.7-sources.jar!/" />
+      <root url="jar://D:/gradle/gradle-5.6.4/caches/modules-2/files-2.1/de.codecentric/spring-boot-admin-server-ui-hystrix/1.5.7/2e30de3053f6000b91132cafd4486818937ba5eb/spring-boot-admin-server-ui-hystrix-1.5.7-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

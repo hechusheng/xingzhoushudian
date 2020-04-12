@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <jmxConfigurator/>
+
+    <springProperty scope="context" name="applicationName" source="spring.application.name"/>
+
+    <!--<appender name="rocketmqAppender" class="com.neusoft.common.log.logback.appender.RocketmqLogbackAppender">-->
+        <!--<tag>log</tag>-->
+        <!--<topic>log</topic>-->
+        <!--<producerGroup>log</producerGroup>-->
+        <!--<nameServerAddress>10.9.25.24:9876</nameServerAddress>-->
+        <!--<applicationName>${applicationName}</applicationName>-->
+    <!--</appender>-->
+
+    <!--<appender name="mqAsyncAppender" class="ch.qos.logback.classic.AsyncAppender">-->
+        <!--<queueSize>1024</queueSize>-->
+        <!--<discardingThreshold>80</discardingThreshold>-->
+        <!--<maxFlushTime>2000</maxFlushTime>-->
+        <!--<neverBlock>true</neverBlock>-->
+        <!--<appender-ref ref="rocketmqAppender"/>-->
+    <!--</appender>-->
+
+    <!--<root level="info">-->
+        <!--<appender-ref ref="mqAsyncAppender"/>-->
+    <!--</root>-->
+
+</configuration>

@@ -1,0 +1,60 @@
+security:
+  oauth2:
+    resource:
+      jwt:
+        key-value: secret
+    client:
+      client-id: gateway
+      client-secret: gateway
+      access-token-uri: http://sc-security-uaa/oauth/token
+      user-authorization-uri: http://sc-security-uaa/oauth/authorize
+spring:
+  redis:
+    database: 9
+    host: 47.92.101.6
+    password: dnc.2009
+zuul:
+  routes:
+    uaa:
+      path: /uaa/**
+      serviceId: sc-security-uaa
+    web:
+      path: /web/**
+      serviceId: sc-web
+      sensitiveHeaders:
+    webauth:
+      path: /webauth/**
+      serviceId: sc-web-auth
+      sensitiveHeaders:
+    job:
+      path: /job/**
+      serviceId: sc-job
+      sensitiveHeaders:
+    project:
+      path: /project/**
+      serviceId: sc-project
+      sensitiveHeaders:
+    pc:
+      path: /pc/**
+      serviceId: sc-xzsd-pc
+      sensitiveHeaders:
+  add-proxy-headers: true
+  add-host-header: true
+  retryable: false
+request:
+  limit:
+    enabled: true
+    max-connections: 2000
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeout-in-milliseconds: 20000
+
+ribbon:
+  ConnectTimeout: 60000
+  ReadTimeout: 60000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.neusoft.webauth.user.dao.UserDao">
+    <resultMap id="BaseResultMap" type="com.neusoft.webauth.user.entity.UserInfo" >
+        <id column="user_code" property="userCode" jdbcType="VARCHAR" />
+        <result column="user_name" property="userName" jdbcType="VARCHAR" />
+        <result column="user_acct" property="userAcct" jdbcType="VARCHAR" />
+        <result column="user_pwd" property="userPwd" jdbcType="VARCHAR" />
+        <result column="is_admin" property="isAdmin" jdbcType="INTEGER" />
+        <result column="id_card" property="idCard" jdbcType="VARCHAR" />
+        <result column="sex" property="sex" jdbcType="INTEGER" />
+        <result column="tel" property="tel" jdbcType="VARCHAR" />
+        <result column="phone" property="phone" jdbcType="VARCHAR" />
+        <result column="email" property="email" jdbcType="VARCHAR" />
+        <result column="ip" property="ip" jdbcType="VARCHAR" />
+        <result column="remark" property="remark" jdbcType="VARCHAR" />
+        <result column="is_deleted" property="isDeleted" jdbcType="INTEGER" />
+        <result column="id" property="id" jdbcType="VARCHAR" />
+        <result column="sort_no" property="sortNo" jdbcType="INTEGER" />
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+        <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+        <result column="last_modified_by" property="lastModifiedBy" jdbcType="VARCHAR" />
+        <result column="version" property="version" jdbcType="INTEGER" />
+        <result column="client_id" property="clientId" jdbcType="INTEGER" />
+    </resultMap>
+
+    <!--新增用户-->
+    <insert id="saveUser" parameterType="com.neusoft.webauth.user.entity.UserInfo">
+        insert into t_sys_user
+        (user_code,
+         user_name,
+         user_acct,
+         user_pwd,
+         is_admin,
+         id_card,
+         sex,
+         tel,
+         phone,
+         email,
+         ip,
+         remark,
+         is_deleted,
+         id,
+         sort_no,
+         gmt_create,
+         create_by,
+         gmt_modified,
+         last_modified_by,
+         version)
+        values
+           (#{userCode},
+            #{userName},
+            #{userAcct},
+            #{userPwd},
+            #{isAdmin},
+            #{idCard},
+            #{sex},
+            #{tel},
+            #{phone},
+            #{email},
+            #{ip},
+            #{remark},
+            #{isDeleted},
+            #{id},
+            0,
+            now(),
+            #{createBy},
+            NOW(),
+            #{lastModifiedBy},
+            0)
+    </insert>
+    <!--获取用户信息-->
+    <select id="getUserById" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+            user_code,
+            user_name,
+            user_acct,
+            user_pwd,
+            is_admin,
+            id_card,
+            sex,
+            tel,
+            phone,
+            email,
+            ip,
+            remark,
+            is_deleted,
+            id,
+            sort_no,
+            gmt_create,
+            create_by,
+            gmt_modified,
+            last_modified_by,
+            version
+        from t_sys_user
+        where user_code = #{userCode}
+        and is_deleted = 0
+    </select>
+    <!--用户列表-->
+    <select id="listUsersByPage" parameterType="com.neusoft.webauth.user.entity.UserInfo" resultMap="BaseResultMap">
+        select
+            a.user_code,
+            a.user_name,
+            a.user_acct,
+            a.user_pwd,
+            a.is_admin,
+            a.id_card,
+            a.sex,
+            a.tel,
+            a.phone,
+            a.email,
+            a.ip,
+            a.remark,
+            a.is_deleted,
+            a.id,
+            a.sort_no,
+            a.gmt_create,
+            a.create_by,
+            a.gmt_modified,
+            a.last_modified_by,
+            a.version
+        from t_sys_user a
+        where a.is_deleted = 0
+        <if test="userAcct != null and userAcct != ''">
+            and a.user_acct like concat('%', #{userAcct}, '%')
+        </if>
+        <if test="userName != null and userName != ''">
+            and a.user_name like concat('%', #{userName}, '%')
+        </if>
+        order by gmt_create desc
+    </select>
+    <!--修改用户信息-->
+    <update id="updateUser" parameterType="com.neusoft.webauth.user.entity.UserInfo">
+        update t_sys_user
+        set
+            user_name    = #{userName},
+            user_acct    = #{userAcct},
+            id_card      = #{idCard},
+            sex          = #{sex},
+            tel          = #{tel},
+            phone        = #{phone},
+            email        = #{email},
+            ip           = #{ip},
+            remark       = #{remark},
+            gmt_modified = now(),
+            last_modified_by   = #{lastModifiedBy},
+            version      = version + 1
+        where user_code = #{userCode}
+          and version = #{version}
+    </update>
+    <!--删除用户-->
+    <update id="deleteUser" parameterType="com.neusoft.webauth.user.entity.UserSettingDTO">
+        update t_sys_user
+           set is_deleted     = 1,
+                gmt_modified = now(),
+                last_modified_by   = #{lastModifiedBy},
+                version      = version + 1
+        where user_code in
+        <foreach item="item" index="index" collection="userList" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+    <!--修改密码-->
+    <update id="updateUserPwd" parameterType="com.neusoft.webauth.user.entity.UserInfo">
+        update t_sys_user
+           set user_pwd     = #{newPwd},
+               gmt_modified = now(),
+               last_modified_by   = #{lastModifiedBy},
+               version      = version + 1
+         where user_code = #{userCode}
+    </update>
+    <!--统计用户账号数量-->
+    <select id="countUserAcct" parameterType="com.neusoft.webauth.user.entity.UserInfo" resultType="int">
+        select count(user_acct)
+          from t_sys_user
+         where is_deleted = 0
+           and user_acct = #{userAcct}
+        <if test="userCode != null and userCode != ''">
+           and user_code != #{userCode}
+        </if>
+    </select>
+</mapper>

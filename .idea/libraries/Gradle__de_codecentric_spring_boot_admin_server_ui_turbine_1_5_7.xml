@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: de.codecentric:spring-boot-admin-server-ui-turbine:1.5.7">
+    <CLASSES>
+      <root url="jar://D:/gradle-5.6.4/caches/modules-2/files-2.1/de.codecentric/spring-boot-admin-server-ui-turbine/1.5.7/89da29fbe09c49c4d6ead916af51dca41005c5fb/spring-boot-admin-server-ui-turbine-1.5.7.jar!/" />
+      <root url="jar://D:/gradle/gradle-5.6.4/caches/modules-2/files-2.1/de.codecentric/spring-boot-admin-server-ui-turbine/1.5.7/89da29fbe09c49c4d6ead916af51dca41005c5fb/spring-boot-admin-server-ui-turbine-1.5.7.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://D:/gradle-5.6.4/caches/modules-2/files-2.1/de.codecentric/spring-boot-admin-server-ui-turbine/1.5.7/7501387004bbc611c3ec32e19b689ab43bfef902/spring-boot-admin-server-ui-turbine-1.5.7-sources.jar!/" />
+      <root url="jar://D:/gradle/gradle-5.6.4/caches/modules-2/files-2.1/de.codecentric/spring-boot-admin-server-ui-turbine/1.5.7/7501387004bbc611c3ec32e19b689ab43bfef902/spring-boot-admin-server-ui-turbine-1.5.7-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

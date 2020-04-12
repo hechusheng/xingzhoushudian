@@ -1,0 +1,14 @@
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-web',
+            'org.springframework.boot:spring-boot-starter-aop',
+            rootProject.ext.dependencies['commonsLang3'],
+            rootProject.ext.dependencies.pagehelper,
+            project(':sc-common:sc-common-base'),
+            project(':sc-common:sc-common-util'),
+            'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.5'
+
+    compileOnly "org.springframework.boot:spring-boot-configuration-processor"
+
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+
+}

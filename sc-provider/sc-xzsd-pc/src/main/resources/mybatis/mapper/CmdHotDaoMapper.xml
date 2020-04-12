@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xzsd.pc.commodityHot.dao.CmdHotDao">
+    <!--统计热门商品数量-->
+    <select id="countCmdHot" parameterType="com.xzsd.pc.commodityHot.entity.CmdHotInfo" resultType="int">
+        select
+            count(*)
+        from
+            t_commodity_hot
+        where
+            is_delete = 0
+        and
+            (com_code = #{comCode}
+            or
+                hot_num = #{hotNum})
+    </select>
+    <!--新增热门商品-->
+    <insert id="addCommodityHot" parameterType="com.xzsd.pc.commodityHot.entity.CmdHotInfo">
+        insert into t_commodity_hot
+                (
+                 hot_code,
+                 hot_num,
+                 com_code,
+                 is_delete,
+                 create_time,
+                 create_user,
+                 update_time,
+                 update_user,
+                 version)
+                values
+                   (
+                    #{hotCode},
+                    #{hotNum},
+                    #{comCode},
+                    #{isDelete},
+                    now(),
+                    #{createUser},
+                    now(),
+                    #{updateUser},
+                    0)
+    </insert>
+    <!--查询热门位商品详情-->
+    <select id="getCommodityHot" parameterType="java.lang.String" resultType="com.xzsd.pc.commodityHot.entity.CmdHotInfo">
+        SELECT
+	        hot.hot_code hotCode,
+            hot.hot_num hotNum,
+            cmd.com_code comCode,
+            cmd.com_name comName
+        FROM
+	        t_commodity_hot hot
+        LEFT JOIN
+	        t_commodity cmd
+        ON
+            hot.com_code = cmd.com_code
+        WHERE
+            hot.is_delete = 0
+         and
+            hot.hot_code = #{hotCode}
+    </select>
+    <!--修改热门商品信息-->
+    <update id="updateCommodityHot" parameterType="com.xzsd.pc.commodityHot.entity.CmdHotInfo">
+         update
+            t_commodity_hot
+         set
+            hot_num = #{hotNum},
+            com_code = #{comCode},
+            update_user = #{updateUser},
+            update_time = now(),
+            version = version + 1
+        where
+            is_delete = 0
+        and
+            hot_code = #{hotCode}
+        and
+            version = #{version}
+    </update>
+    <!--查询热门商品（列表）-->
+    <select id="listHotCommodityByPage" parameterType="com.xzsd.pc.commodityHot.entity.CmdHotInfo" resultType="com.xzsd.pc.commodityHot.entity.CmdHotInfo">
+        SELECT
+            hot.hot_code hotCode,
+            hot.hot_num hotNum,
+            hot.com_code comCode,
+            cmd.com_name comName,
+            cmd.com_price comPrice,
+            cmd.com_present comPresent
+        FROM
+            t_commodity_hot hot
+        LEFT JOIN
+            t_commodity cmd
+        ON
+            hot.com_code = cmd.com_code
+        WHERE
+            hot.is_delete = 0
+        <if test="comName != null and comName != ''">
+            AND cmd.com_name like concat ('%',#{comName},'%')
+        </if>
+        <if test="comCode != null and comCode != ''">
+            AND cmd.com_code like concat ('%',#{comCode},'%')
+        </if>
+        order by hot.hot_num asc
+    </select>
+    <!--删除热门商品信息-->
+    <update id="deleteCommodityHot" parameterType="com.xzsd.pc.commodityHot.entity.CmdHotInfo">
+        update
+            t_commodity_hot
+        set
+            is_delete = 1,
+            update_time = now(),
+            update_user = #{userId},
+            version = version + 1
+        where
+            hot_code
+        in
+        <foreach item="item" index="index" collection="listCode" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+</mapper>

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.neusoft.support.sharding.demo.dao.UserDao">
+    <!--新增用户-->
+    <insert id="saveUser" parameterType="com.neusoft.support.sharding.demo.entity.UserInfo">
+        insert into t_sys_user
+        (user_code,
+         user_name,
+         user_acct,
+         user_pwd,
+         admin_flag,
+         id_card,
+         sex,
+         tel,
+         phone,
+         email,
+         ip,
+         remark,
+         del_flag,
+         uuid,
+         sort_no,
+         created_time,
+         created_by,
+         updated_time,
+         updated_by,
+         version)
+        values
+           (#{userCode},
+            #{userName},
+            #{userAcct},
+            #{userPwd},
+            #{adminFlag},
+            #{idCard},
+            #{sex},
+            #{tel},
+            #{phone},
+            #{email},
+            #{ip},
+            #{remark},
+            #{delFlag},
+            #{uuid},
+            0,
+            NOW(),
+            #{createdBy},
+            NOW(),
+            #{updatedBy},
+            0)
+    </insert>
+    <!--获取用户信息-->
+    <select id="getUserById" parameterType="java.lang.String" resultType="com.neusoft.support.sharding.demo.entity.UserInfo">
+        select
+            user_code,
+            user_name,
+            user_acct,
+            user_pwd,
+            admin_flag,
+            id_card,
+            sex,
+            tel,
+            phone,
+            email,
+            ip,
+            remark,
+            del_flag,
+            uuid,
+            sort_no,
+            created_time,
+            created_by,
+            updated_time,
+            updated_by,
+            version
+        from t_sys_user
+        where user_code = #{userCode}
+          and del_flag = 0
+    </select>
+    <!--用户列表-->
+    <select id="listUsersByPage" parameterType="com.neusoft.support.sharding.demo.entity.UserInfo" resultType="com.neusoft.support.sharding.demo.entity.UserInfo">
+        select
+            a.user_code,
+            a.user_name,
+            a.user_acct,
+            a.user_pwd,
+            a.admin_flag,
+            a.id_card,
+            a.sex,
+            a.tel,
+            a.phone,
+            a.email,
+            a.ip,
+            a.remark,
+            a.del_flag,
+            a.uuid,
+            a.sort_no,
+            a.created_time,
+            a.created_by,
+            a.updated_time,
+            a.updated_by,
+            a.version
+        from t_sys_user a
+        where a.del_flag = 0
+        <if test="userAcct != null and userAcct != ''">
+            and a.user_acct like concat('%', #{userAcct}, '%')
+        </if>
+        <if test="userName != null and userName != ''">
+            and a.user_name like concat('%', #{userName}, '%')
+        </if>
+        order by created_time desc
+    </select>
+    <!--修改用户信息-->
+    <update id="updateUser" parameterType="com.neusoft.support.sharding.demo.entity.UserInfo">
+        update t_sys_user
+        set
+            user_name    = #{userName},
+            user_acct    = #{userAcct},
+            id_card      = #{idCard},
+            sex          = #{sex},
+            tel          = #{tel},
+            phone        = #{phone},
+            email        = #{email},
+            ip           = #{ip},
+            remark       = #{remark},
+            updated_time = now(),
+            updated_by   = #{updatedBy},
+            version      = version + 1
+        where user_code = #{userCode}
+          and version = #{version}
+    </update>
+
+    <!--修改密码-->
+    <update id="updateUserPwd" parameterType="com.neusoft.support.sharding.demo.entity.UserInfo">
+        update t_sys_user
+           set user_pwd     = #{newPwd},
+               updated_time = now(),
+               updated_by   = #{updatedBy},
+               version      = version + 1
+         where user_code = #{userCode}
+    </update>
+    <!--统计用户账号数量-->
+    <select id="countUserAcct" parameterType="com.neusoft.support.sharding.demo.entity.UserInfo" resultType="int">
+        select count(user_acct)
+          from t_sys_user
+         where del_flag = 0
+           and user_acct = #{userAcct}
+        <if test="userCode != null and userCode != ''">
+           and user_code != #{userCode}
+        </if>
+    </select>
+</mapper>

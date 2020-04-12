@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xzsd.pc.userClient.dao.UserClientDao">
+    <!--用户列表-->
+    <select id="listUserClientByPage" parameterType="com.xzsd.pc.userClient.entity.UserClientInfo" resultType="com.xzsd.pc.userClient.entity.UserClientInfo">
+        SELECT
+            us.user_acc userAccount,
+            us.user_name userName,
+            us.sex sex,
+            us.phone phone,
+            us.email email,
+            us.idcard idCard,
+            us.version
+        FROM
+            t_sys_user us
+        LEFT JOIN
+            t_user_client cl
+        ON
+            us.user_code = cl.user_code
+        WHERE
+            us.role = 3
+        AND
+            us.is_delete = 0
+        <if test="userAccount != null and userAccount != ''">
+            and us.user_acc like concat('%', #{userAccount}, '%')
+        </if>
+        <if test="userName != null and userName != ''">
+            and us.user_name like concat('%', #{userName}, '%')
+        </if>
+        <if test="role !=null and role !='' and role == 1">
+            AND cl.invite_code in (select invite_code from t_store where user_code = #{userId})
+        </if>
+        order by us.update_time desc
+    </select>
+</mapper>

@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: org.eclipse.jgit:org.eclipse.jgit:3.6.1.201501031845-r">
+    <CLASSES>
+      <root url="jar://D:/gradle-5.6.4/caches/modules-2/files-2.1/org.eclipse.jgit/org.eclipse.jgit/3.6.1.201501031845-r/bbdc94f97dbd91000e0bbaaab96b8b73c7726729/org.eclipse.jgit-3.6.1.201501031845-r.jar!/" />
+      <root url="jar://D:/gradle/gradle-5.6.4/caches/modules-2/files-2.1/org.eclipse.jgit/org.eclipse.jgit/3.6.1.201501031845-r/bbdc94f97dbd91000e0bbaaab96b8b73c7726729/org.eclipse.jgit-3.6.1.201501031845-r.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://D:/gradle-5.6.4/caches/modules-2/files-2.1/org.eclipse.jgit/org.eclipse.jgit/3.6.1.201501031845-r/45c0a2356fff571cf33b6ec1fd25e55ab03c77de/org.eclipse.jgit-3.6.1.201501031845-r-sources.jar!/" />
+      <root url="jar://D:/gradle/gradle-5.6.4/caches/modules-2/files-2.1/org.eclipse.jgit/org.eclipse.jgit/3.6.1.201501031845-r/45c0a2356fff571cf33b6ec1fd25e55ab03c77de/org.eclipse.jgit-3.6.1.201501031845-r-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

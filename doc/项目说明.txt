@@ -1,0 +1,18 @@
+1.sc-api-gateway：
+    系统网关，系统的唯一出口，负责路由转发和权限鉴定
+2.sc-eureka-server:
+    系统的注册中心
+3.sc-oauth-server
+    oauth2的授权中心，负责授权
+4.sc-web:
+    web层
+5.sc-service:
+    服务层
+6.sc-service-api
+    接口层，定义web层和服务层的调用接口
+5.sc-admin-server
+    系统的监控中心，监控各项目的运行环境
+6.sc-config-server
+    系统的配置中心
+7.sc-core
+    项目核心代码

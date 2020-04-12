@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: org.apache.rocketmq:rocketmq-logappender:4.2.0">
+    <CLASSES>
+      <root url="jar://D:/gradle-5.6.4/caches/modules-2/files-2.1/org.apache.rocketmq/rocketmq-logappender/4.2.0/9e141dd63adb6ecd635cad03e269b217a1d2d818/rocketmq-logappender-4.2.0.jar!/" />
+      <root url="jar://D:/gradle/gradle-5.6.4/caches/modules-2/files-2.1/org.apache.rocketmq/rocketmq-logappender/4.2.0/9e141dd63adb6ecd635cad03e269b217a1d2d818/rocketmq-logappender-4.2.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://D:/gradle-5.6.4/caches/modules-2/files-2.1/org.apache.rocketmq/rocketmq-logappender/4.2.0/e5a656259ed4c7fb9a5b4adc60e35bae2f62291b/rocketmq-logappender-4.2.0-sources.jar!/" />
+      <root url="jar://D:/gradle/gradle-5.6.4/caches/modules-2/files-2.1/org.apache.rocketmq/rocketmq-logappender/4.2.0/e5a656259ed4c7fb9a5b4adc60e35bae2f62291b/rocketmq-logappender-4.2.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.neusoft.webauth.menu.dao.MenuBtnDao">
+    <resultMap id="BaseResultMap" type="com.neusoft.webauth.menu.entity.MenuBtn" >
+        <id column="menu_code" property="menuCode" jdbcType="VARCHAR" />
+        <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
+        <result column="menu_url" property="menuUrl" jdbcType="VARCHAR" />
+        <result column="parent_menu_code" property="parentMenuCode" jdbcType="VARCHAR" />
+        <result column="type" property="type" jdbcType="INTEGER" />
+        <result column="level" property="level" jdbcType="INTEGER" />
+        <result column="auth_code" property="authCode" jdbcType="VARCHAR" />
+        <result column="remark" property="remark" jdbcType="VARCHAR" />
+        <result column="is_deleted" property="isDeleted" jdbcType="INTEGER" />
+        <result column="id" property="id" jdbcType="VARCHAR" />
+        <result column="sort_no" property="sortNo" jdbcType="INTEGER" />
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+        <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+        <result column="last_modified_by" property="lastModifiedBy" jdbcType="VARCHAR" />
+        <result column="version" property="version" jdbcType="INTEGER" />
+    </resultMap>
+
+    <!--获取菜单下的按钮-->
+    <select id="listMenuBtns"  parameterType="String" resultMap="BaseResultMap">
+        select
+         id,
+         button_code,
+         button_name,
+         button_style,
+         parent_button_code,
+         button_url,
+         level,
+         auth_code,
+         is_deleted,
+         menu_code,
+         remark,
+         version,
+         sort_no
+        from t_sys_menu_button
+        where menu_code = #{menuCode}
+        and is_deleted = 0
+        order by sort_no
+    </select>
+    <!--删除菜单按钮-->
+    <update id="deleteMenuBtn" parameterType="com.neusoft.webauth.menu.entity.MenuBtn">
+        update t_sys_menu_button
+           set is_deleted     = 1,
+                gmt_modified = now(),
+                last_modified_by   = #{lastModifiedBy,jdbcType=VARCHAR}
+        <where>
+            <if test="buttonCodes != null and buttonCodes != ''">
+                and button_code in
+                <foreach item="item" index="index" collection="buttonCodes" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="buttonCode != null and buttonCode != ''">
+              and button_code = #{buttonCode,jdbcType=VARCHAR}
+            </if>
+            <if test="menuCodes != null and menuCodes != ''">
+                and menu_code in
+                <foreach item="item" index="index" collection="menuCodes" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="menuAuthCode != null and menuAuthCode != ''">
+                and menu_code in (
+                        select menu_code
+                          from t_sys_menu
+                          where is_deleted = 0
+                            and auth_code like concat(#{menuAuthCode}, '%'))
+            </if>
+        </where>
+    </update>
+    <!--删除角色菜单按钮关联关系-->
+    <delete id="deleteRoleMenuBtnBy" parameterType="com.neusoft.webauth.menu.entity.MenuBtn">
+        delete from t_sys_role_menu_button
+        <where> 1 = 1
+            <if test="buttonCode != null and buttonCode != ''">
+                and button_code = #{buttonCode}
+            </if>
+            <if test="buttonCodes != null and buttonCodes != ''">
+                and button_code in
+                <foreach item="item" index="index" collection="buttonCodes" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="menuCodes != null and menuCodes != ''">
+                and menu_code in
+                <foreach item="item" index="index" collection="menuCodes" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="roleCodes != null and roleCodes != ''">
+                and role_code in
+                <foreach item="item" index="index" collection="roleCodes" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="roleCode != null and roleCode != ''">
+                and role_code = #{role_code}
+            </if>
+        </where>
+    </delete>
+
+    <delete id="delRoleMenuBtn" parameterType="com.neusoft.webauth.menu.entity.MenuBtn">
+        DELETE FROM T_SYS_ROLE_MENU_BUTTON
+        <where>
+            <if test="buttonCodes != null and buttonCodes != ''">
+                BUTTON_CODE IN
+                <foreach item="item" index="index" collection="buttonCodes" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="menuCodes != null and menuCodes != ''">
+                AND MENU_CODE IN
+                <foreach item="item" index="index" collection="menuCodes" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="roleCodes != null and roleCodes != ''">
+                AND ROLE_CODE IN
+                <foreach item="item" index="index" collection="roleCodes" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="roleCode != null and roleCode != ''">
+                AND ROLE_CODE = #{roleCode}
+            </if>
+        </where>
+    </delete>
+
+    <!-- 获取范围代码 -->
+    <select id="getParentAuthCode" resultType="string" parameterType="com.neusoft.webauth.menu.entity.MenuBtn">
+        select
+        auth_code
+        from
+        t_sys_menu_button
+        where
+        is_deleted = 0
+        and button_code = #{parentButtonCode}
+    </select>
+    <!--新增菜单按钮-->
+    <insert id="insertMenuBtn" parameterType="com.neusoft.webauth.menu.entity.MenuBtn">
+        insert into t_sys_menu_button (
+            button_code,
+            button_name,
+            button_url,
+            button_style,
+            menu_code,
+            remark,
+            is_deleted,
+            id,
+            sort_no,
+            gmt_create,
+            create_by,
+            gmt_modified,
+            last_modified_by,
+            parent_button_code,
+            level,
+            version,
+            auth_code
+        ) values (
+            #{buttonCode,jdbcType=VARCHAR},
+            #{buttonName,jdbcType=VARCHAR},
+            #{buttonUrl,jdbcType=VARCHAR},
+            #{buttonStyle,jdbcType=VARCHAR},
+            #{menuCode,jdbcType=VARCHAR},
+            #{remark,jdbcType=VARCHAR},
+            0,
+            #{id,jdbcType=VARCHAR},
+            #{sortNo,jdbcType=NUMERIC},
+            NOW(),
+            #{createBy,jdbcType=VARCHAR},
+            NOW(),
+            #{createBy,jdbcType=VARCHAR},
+            #{parentButtonCode,jdbcType=VARCHAR},
+            #{level,jdbcType=NUMERIC},
+            0,
+            #{authCode,jdbcType=VARCHAR}
+        )
+    </insert>
+    <!--修改菜单按钮-->
+    <update id="updateMenuBtn" parameterType="com.neusoft.webauth.menu.entity.MenuBtn">
+        update t_sys_menu_button
+           set
+                button_name  = #{buttonName,jdbcType=VARCHAR},
+                button_url   = #{buttonUrl,jdbcType=VARCHAR},
+                button_style = #{buttonStyle,jdbcType=VARCHAR},
+                remark       = #{remark,jdbcType=VARCHAR},
+                sort_no      = #{sortNo,jdbcType=NUMERIC},
+                gmt_modified = now(),
+                version		 = version + 1,
+                last_modified_by   = #{lastModifiedBy,jdbcType=VARCHAR}
+         where button_code = #{buttonCode,jdbcType=VARCHAR}
+    </update>
+
+    <!--获取角色已授权的菜单按钮-->
+    <select id="listRoleMenuBtns" parameterType="com.neusoft.webauth.menu.entity.MenuBtn" resultMap="BaseResultMap">
+        select menu_code, button_code
+          from t_sys_role_menu_button
+         where role_code = #{roleCode}
+           and is_deleted = 0
+        <if test="menuCode !=null and menuCode !=''">
+           and menu_code = #{menuCode}
+        </if>
+    </select>
+
+    <!--角色管理-菜单授权，新增角色菜单按钮-->
+    <insert id="insertRoleMenuBtn" parameterType="java.util.List">
+        insert into t_sys_role_menu_button
+        (role_code,
+        menu_code,
+        button_code,
+        is_deleted,
+        id,
+        gmt_create,
+        create_by,
+        sort_no,
+        version,
+        gmt_modified,
+        last_modified_by)
+        values
+        <foreach item="list" index="index" collection="list"  separator=",">
+            (#{list[${index}].roleCode},
+            #{list[${index}].menuCode},
+            #{list[${index}].buttonCode},
+            0,
+            uuid(),
+            now(),
+            #{list[${index}].createBy},
+            0,
+            0,
+            now(),
+            #{list[${index}].createBy})
+        </foreach>
+    </insert>
+
+    <select id="getMenuList"  parameterType="map" resultType="String">
+        select
+        group_concat(menu_code separator ',') menu_code
+        from t_sys_role_menu_button
+        where role_code = #{role_code}
+        and
+        menu_code not in
+        <foreach item="item" index="index" collection="menu_codes" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <!-- 角色管理-菜单授权，删除角色菜单按钮 -->
+    <delete id="deleteRoleMenuBtns" parameterType="map">
+        delete from  t_sys_role_menu_button
+        where role_code = #{roleCode}
+        <if test="btnList != null and btnList.size() > 0">
+            and menu_code in
+            <foreach item="item" index="index" collection="btnList" open="(" separator="," close=")">
+                #{item.menuCode}
+            </foreach>
+        </if>
+        <if test="menuList != null and menuList.size() > 0">
+            and menu_code not in
+            <foreach item="item" collection="menuList" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </delete>
+</mapper>

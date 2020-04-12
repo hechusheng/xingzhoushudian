@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xzsd.pc.commodity.dao.CmdDao">
+    <!--统计商品数量-->
+    <select id="countCommodity" parameterType="com.xzsd.pc.commodity.entity.CmdInfo" resultType="int">
+        select
+            count(*),
+        from
+            t_commodity
+        where
+            is_delete = 0
+        and
+            com_name = #{comName}
+        or
+            com_num = #{comNum}
+        <if test="comCode != null and comCode != ''">
+            and com_code != #{comCode}
+        </if>
+    </select>
+    <!--新增商品-->
+    <insert id="addCommodity" parameterType="com.xzsd.pc.commodity.entity.CmdInfo">
+        insert into t_commodity
+            (com_code,
+             com_name,
+             com_num,
+             buss_name,
+             com_stock,
+             com_cost,
+             com_price,
+             sort_code,
+             pic_path,
+             com_present,
+             advertisement,
+             author,
+             press,
+             is_delete,
+             create_time,
+             create_user,
+             update_time,
+             update_user,
+             version)
+        values
+           (#{comCode},
+            #{comName},
+            #{comNum},
+            #{bussName},
+            #{comStock},
+            #{comCost},
+            #{comPrice},
+            #{secondSortCode},
+            #{picPath},
+            #{comPresent},
+            #{advertisement},
+            #{author},
+            #{press},
+            #{isDelete},
+            now(),
+            #{createUser},
+            now(),
+            #{updateUser},
+            0)
+    </insert>
+
+    <!--商品列表-->
+    <select id="listCommodity" parameterType="com.xzsd.pc.commodity.entity.CmdInfo" resultType="com.xzsd.pc.commodity.entity.CmdInfo">
+        SELECT
+            a.com_name comName,
+            a.buss_name bussName,
+            a.com_num comNum,
+            a.com_stock comStock,
+            a.fixed_price fixedPrice,
+            a.com_sales comSales,
+            a.page_views pageViews,
+            c.sort_code firstSortCode,
+            c.sort_name firstSortName,
+            b.sort_code secondSortCode,
+            b.sort_name secondSortName,
+            a.com_status comStatus,
+            a.shelves_time shelvesTime,
+            a.advertisement advertisement,
+            a.author author,
+            a.press press
+        FROM
+            t_commodity a
+        LEFT JOIN
+            (SELECT sort_code,sort_name,parent_code FROM t_commodity_sort) b
+        ON
+            a.sort_code = b.sort_code
+        LEFT JOIN
+            (SELECT sort_code,sort_name FROM t_commodity_sort) c
+        ON
+            c.sort_code = b.parent_code
+        WHERE
+            a.is_delete = 0
+        <if test="comName != null and comName != ''">
+            and a.com_name like concat('%', #{comName}, '%')
+        </if>
+        <if test="comStatus != null and comStatus != ''">
+            and a.com_status like concat('%', #{comStatus}, '%')
+        </if>
+        <if test="advertisement != null and advertisement != ''">
+            and a.advertisement like concat('%', #{advertisement}, '%')
+        </if>
+        <if test="author != null and author != ''">
+            and a.author like concat('%', #{author}, '%')
+        </if>
+        <if test="press != null and press != ''">
+            and a.press like concat('%', #{press}, '%')
+        </if>
+
+    </select>
+    <!--修改商品信息-->
+    <update id="updateCommodityByCode" parameterType="com.xzsd.pc.commodity.entity.CmdInfo">
+        update
+            t_commodity
+        set
+            com_name = #{comName},
+            com_num = #{comNum},
+            buss_name = #{bussName},
+            com_stock = #{comStock},
+            com_cost = #{comCost},
+            com_price = #{comPrice},
+            sort_code = #{secondSortCode},
+            pic_path = #{picPath},
+            com_present = #{comPresent},
+            advertisement = #{advertisement},
+            author = #{author},
+            press = #{press},
+            update_user = #{updateUser},
+            update_time = now(),
+            version = version + 1
+        where
+            com_code = #{comCode}
+        and
+            version = #{version}
+    </update>
+    <!--删除商品信息-->
+    <update id="deleteCommodity" parameterType="com.xzsd.pc.commodity.entity.CmdInfo">
+        update
+            t_commodity
+        set
+            is_delete = 1,
+            update_time = now(),
+            update_user = #{userId},
+            version = version + 1
+        where
+            com_code
+        in
+        <foreach item="item" index="index" collection="listCode" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+    <!--获取商品信息-->
+    <select id="findCommodityByCode" parameterType="java.lang.String" resultType="com.xzsd.pc.commodity.entity.CmdInfo">
+        SELECT
+            a.com_code comCode,
+            a.com_name comName,
+            a.buss_name bussName,
+            a.com_num comNum,
+            a.com_stock comStock,
+            a.com_cost comCost,
+            a.com_sales comSales,
+            a.page_views pageViews,
+            c.sort_code firstSortCode,
+            c.sort_name firstSortName,
+            b.sort_code secondSortCode,
+            b.sort_name secondSortName,
+            a.pic_path picPath,
+            a.advertisement advertisement,
+            a.author author,
+            a.press press
+        FROM
+            t_commodity a
+        LEFT JOIN
+            (SELECT sort_code,sort_name,parent_code FROM t_commodity_sort) b
+        ON
+            a.sort_code = b.sort_code
+        LEFT JOIN
+            (SELECT sort_code,sort_name FROM t_commodity_sort) c
+        ON
+            c.sort_code = b.parent_code
+        WHERE
+            a.is_delete = 0
+        and
+            com_code = #{comCode}
+    </select>
+    <!--商品上架/下架-->
+    <update id="updateComStatus" parameterType="com.xzsd.pc.commodity.entity.CmdInfo">
+        update
+            t_commodity
+        set
+            com_status =  #{comStatus},
+            update_time = now(),
+            update_user = #{userId},
+            version = version + 1
+        where
+            com_code
+        in
+        <foreach item="item" index="index" collection="listCode" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+    <!--一级分类下拉查询-->
+    <select id="listFirstClass" resultType="com.xzsd.pc.commoditySort.entity.FirstClassSort">
+       select
+            sort_code as firstSortCode,
+            sort_name as firstSortName,
+            is_delete as isDelete,
+            create_time as createTime,
+            create_user as createUser,
+            update_time as updateTime,
+            update_user as updateUser,
+            version as version
+        from
+            t_commodity_sort
+        where
+            is_delete = 0
+        and
+            sort_level = 1
+        order by
+            create_time desc
+    </select>
+    <!--二级分类下拉查询-->
+    <select id="listSecondClass" parameterType="java.lang.String" resultType="com.xzsd.pc.commoditySort.entity.SecondClassSort">
+       select
+            sort_code secondSortCode,
+            sort_name secondSortName,
+            is_delete isDelete,
+            create_time createTime,
+            create_user createUser,
+            update_time updateTime,
+            update_user updateUser,
+            version version
+        from
+            t_commodity_sort
+        where
+            is_delete = 0
+        and
+            sort_level = 2
+        and
+            parent_code = #{firstSortCode}
+        order by
+            create_time desc
+    </select>
+</mapper>

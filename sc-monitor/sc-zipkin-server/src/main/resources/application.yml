@@ -1,0 +1,11 @@
+server:
+  port: 9411
+spring:
+  application:
+    name: sc-sleuth
+management:
+  security:
+    enabled: false
+
+
+

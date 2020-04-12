@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: de.codecentric:spring-boot-admin-server-ui-activiti:1.5.7">
+    <CLASSES>
+      <root url="jar://D:/gradle-5.6.4/caches/modules-2/files-2.1/de.codecentric/spring-boot-admin-server-ui-activiti/1.5.7/6b75e402fc9b05f5c8394be0648cf6173deeff93/spring-boot-admin-server-ui-activiti-1.5.7.jar!/" />
+      <root url="jar://D:/gradle/gradle-5.6.4/caches/modules-2/files-2.1/de.codecentric/spring-boot-admin-server-ui-activiti/1.5.7/6b75e402fc9b05f5c8394be0648cf6173deeff93/spring-boot-admin-server-ui-activiti-1.5.7.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://D:/gradle-5.6.4/caches/modules-2/files-2.1/de.codecentric/spring-boot-admin-server-ui-activiti/1.5.7/a3695da29bbc1ffd72acf7421884d5491b496206/spring-boot-admin-server-ui-activiti-1.5.7-sources.jar!/" />
+      <root url="jar://D:/gradle/gradle-5.6.4/caches/modules-2/files-2.1/de.codecentric/spring-boot-admin-server-ui-activiti/1.5.7/a3695da29bbc1ffd72acf7421884d5491b496206/spring-boot-admin-server-ui-activiti-1.5.7-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

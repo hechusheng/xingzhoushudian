@@ -1,0 +1,9 @@
+dependencies {
+
+    compile 'org.apache.rocketmq:rocketmq-logappender:4.2.0',
+            rootProject.ext.dependencies['gson']
+
+    compileOnly 'ch.qos.logback:logback-classic:1.1.1'
+
+
+}

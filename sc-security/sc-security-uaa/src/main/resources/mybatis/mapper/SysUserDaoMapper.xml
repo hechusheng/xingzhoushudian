@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.neusoft.oauth.dao.SysUserDao">
+
+    <select id="getUserInfoByUsername" resultType="com.neusoft.oauth.entity.SysUser">
+        SELECT
+            t.user_code as id,
+            t.user_acct as account,
+            t.user_pwd as password,
+            t.user_name as name,
+            t.is_deleted as locked
+        FROM t_sys_user t
+        WHERE t.user_acct = #{username}
+    </select>
+
+</mapper>

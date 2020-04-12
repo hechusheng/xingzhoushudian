@@ -1,0 +1,22 @@
+server:
+  port: 8000
+spring:
+  application:
+    name: sc-admin-server
+management:
+  security:
+    enabled: false
+eureka:
+  instance:
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+security:
+  basic:
+    enabled: false
+  user:
+    name: admin
+    password: dnc.2009
+

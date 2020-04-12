@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xzsd.pc.menu.dao.MenuDao">
+    <!--统计菜单数量-->
+    <select id="countMenu" parameterType="com.xzsd.pc.menu.entity.MenuInfo" resultType="int">
+        select count(menu_name)
+        from t_menu
+        where is_delete = 0
+        and menu_name = #{menuName}
+        <if test="menuCode != null and menuCode != ''">
+            and menu_code != #{menuCode}
+        </if>
+    </select>
+    <!--新增菜单-->
+    <insert id="addMenu" parameterType="com.xzsd.pc.menu.entity.MenuInfo">
+        insert into t_menu
+            (menu_code,
+             menu_name,
+             remark,
+             path,
+             is_delete,
+             create_time,
+             create_user,
+             update_time,
+             update_user,
+             version)
+        values
+            (#{menuCode},
+            #{menuName},
+            #{remark},
+            #{path},
+            #{isDelete},
+            now(),
+            #{createUser},
+            now(),
+            #{updateUser},
+            0)
+    </insert>
+    <!--获取菜单详情信息-->
+    <select id="findMenuByCode" parameterType="java.lang.String" resultType="com.xzsd.pc.menu.entity.MenuInfo">
+        select
+           menu_name menuName,
+           remark remark,
+           path path
+        from
+            t_menu
+        where
+            menu_code = #{menuCode}
+        and
+            is_delete = 0
+    </select>
+    <!--修改菜单信息-->
+    <update id="updateMenuByCode" parameterType="com.xzsd.pc.menu.entity.MenuInfo">
+        update t_menu
+        set
+            menu_name = #{menuName},
+            remark = #{remark},
+            path = #{path},
+            update_time = now(),
+            update_user = #{updateUser},
+            version = version + 1
+        where
+            menu_code = #{menuCode}
+        and
+            version = #{version}
+    </update>
+    <!--菜单列表-->
+    <select id="listMenu" parameterType="com.xzsd.pc.menu.entity.MenuInfo" resultType="com.xzsd.pc.menu.entity.MenuInfo">
+        select
+            a.menu_name menuName,
+            a.menu_code menuCode
+        from
+            t_menu a
+        where
+            a.is_delete = 0
+        order by
+            a.update_time desc
+    </select>
+
+    <!--删除菜单-->
+    <update id="deleteMenu" parameterType="com.xzsd.pc.menu.entity.MenuInfo">
+        update t_menu
+        set
+            is_delete = 1,
+            update_time = now(),
+            update_user = #{userId},
+            version = version + 1
+        where
+            menu_code = #{menuCode}
+    </update>
+</mapper>
+

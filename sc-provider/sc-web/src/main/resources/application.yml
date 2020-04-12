@@ -1,0 +1,35 @@
+security:
+  oauth2:
+    resource:
+      prefer-token-info: true
+      token-info-uri: http://sc-security-uaa/oauth/token
+      jwt:
+        key-uri: http://sc-security-uaa/oauth/token_key
+    client:
+      client-id: client
+      client-secret: client
+      grant-type: client_credentials
+      access-token-uri: http://sc-security-uaa/oauth/token
+      user-authorization-uri: http://sc-security-uaa/oauth/authorize
+  sessions: stateless
+spring:
+  redis:
+    host: 47.92.101.6
+    password: dnc.2009
+    database: 9
+  cloud:
+    loadbalancer:
+      retry:
+        enabled: false
+sc:
+  cloud:
+    dev: true
+    task:
+      core-pool-size: 20
+      max-pool-size: 50
+      queue-capacity: 200
+      keep-alive-seconds: 3000
+      thread-name-prefix: sc-task-executor-
+    swagger:
+      enabled: true
+      description: 'spring cloud web'

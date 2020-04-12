@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.neusoft.webauth.role.dao.RoleDao">
+
+    <resultMap id="BaseResultMap" type="com.neusoft.webauth.role.entity.RoleInfo">
+        <id column="role_code" jdbcType="VARCHAR" property="roleCode" />
+        <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+        <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
+        <result column="id" jdbcType="VARCHAR" property="id" />
+        <result column="sort_no" jdbcType="INTEGER" property="sortNo" />
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+        <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+        <result column="last_modified_by" jdbcType="VARCHAR" property="lastModifiedBy" />
+        <result column="version" jdbcType="INTEGER" property="version" />
+    </resultMap>
+    <!--新增角色-->
+    <insert id="saveRole" parameterType="com.neusoft.webauth.role.entity.RoleInfo">
+        insert into t_sys_role (
+          role_code,
+          role_name,
+          remark,
+          id,
+          sort_no,
+          is_deleted,
+          gmt_create,
+          create_by,
+          gmt_modified,
+          last_modified_by,
+          version
+        ) values (
+            #{roleCode,jdbcType=VARCHAR},
+            #{roleName,jdbcType=VARCHAR},
+            #{remark,jdbcType=VARCHAR},
+            #{id,jdbcType=VARCHAR},
+            0,
+            0,
+            now(),
+            #{createBy,jdbcType=VARCHAR},
+            now(),
+            #{createBy,jdbcType=VARCHAR},
+            0
+        )
+    </insert>
+
+    <!--查询所有角色（分页）-->
+    <select id="listRolesByPage"  parameterType="com.neusoft.webauth.role.entity.RoleInfo" resultMap="BaseResultMap">
+         select
+                role_code,
+                role_name,
+                remark,
+                id,
+                sort_no,
+                is_deleted,
+        		version,
+                gmt_create,
+                create_by,
+                gmt_modified,
+                last_modified_by
+           from t_sys_role
+          where is_deleted = 0
+        <if test="roleName != null and roleName != ''">
+            and role_name like concat('%', #{roleName}, '%')
+        </if>
+
+          order by gmt_create desc
+    </select>
+
+    <!--用户管理-角色授权，查询用户已授权角色信息-->
+    <select id="listUserRoles" parameterType="String" resultMap="BaseResultMap">
+      select
+            a.role_code,
+            a.role_name,
+            b.is_default
+        from t_sys_role a, t_sys_user_role b
+       where a.role_code = b.role_code
+         and a.is_deleted = 0
+         and b.is_deleted = 0
+         and b.user_code = #{userCode}
+    </select>
+
+    <!--用户管理-角色授权，删除用户角色关联关系/用户管理-删除,删除选中用户关联的角色信息-->
+    <delete id="deleteUsersRole" parameterType="com.neusoft.webauth.user.entity.UserSettingDTO">
+        delete from t_sys_user_role
+         where 1 = 1
+        <if test="userCode != null and userCode != ''">
+           and user_code = #{userCode}
+        </if>
+        <if test="userList != null and userList.size() > 0">
+           and user_code in
+            <foreach collection="userList" item="item" separator="," open="(" close=")">
+                #{item}
+            </foreach>
+        </if>
+    </delete>
+
+    <!-- 用户管理-角色授权, 新增用户角色关联关系 -->
+    <insert id="insertUserRole" parameterType="com.neusoft.webauth.user.entity.UserSettingDTO">
+      insert into t_sys_user_role
+        (id,
+         role_code,
+         user_code,
+         gmt_create,
+         create_by,
+         is_default,
+         is_deleted,
+         sort_no,
+         gmt_modified,
+         last_modified_by,
+         version)
+        values
+        <foreach collection="roleList" item="tag"  index="index" open="" close="" separator="," >
+           (uuid(),
+            #{tag},
+            #{userCode},
+            now(),
+            #{createBy},
+            0,
+            0,
+            0,
+            now(),
+            #{createBy},
+            0)
+        </foreach>
+    </insert>
+
+    <!--清除原有的默认角色  -->
+    <update id="clearUserDefaultRole" parameterType="java.util.HashMap">
+        update t_sys_user_role
+        set is_default = 0,
+            version      = version + 1,
+            gmt_modified = now(),
+            last_modified_by   = #{UPDATED_BY}
+        where user_code = #{USER_CODE}
+    </update>
+
+    <!--设置新的默认角色 -->
+    <update id="setDefaultRole" parameterType="java.util.HashMap">
+        update t_sys_user_role
+        set is_default = 1,
+            version      = version + 1,
+            gmt_modified = now(),
+            last_modified_by   = #{UPDATED_BY}
+        where user_code = #{USER_CODE}
+        and role_code = #{ROLE_CODE}
+    </update>
+    <!--删除角色-->
+    <update id="deleteRole" parameterType="map">
+        update t_sys_role
+        set
+            is_deleted     = 1,
+            version      = version + 1,
+            gmt_modified = now(),
+            last_modified_by   = #{lastModifiedBy}
+        where role_code in
+        <foreach item="item" index="index" collection="roleCodes" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <update id="updateRole" parameterType="com.neusoft.webauth.role.entity.RoleInfo">
+        update t_sys_role
+        set
+            role_name    = #{roleName},
+            remark       = #{remark},
+            version      = version+1,
+            gmt_modified = now(),
+            last_modified_by   = #{lastModifiedBy}
+        where role_code = #{roleCode}
+        and  is_deleted = 0
+    </update>
+    <!--角色管理-用户授权，获取当前页已授权用户角色-->
+    <select id="listRoleUsers" resultType="java.lang.String" parameterType="com.neusoft.webauth.role.entity.RoleUserDTO">
+        select user_code
+          from t_sys_user_role
+         where role_code = #{roleCode}
+           and user_code in
+        <foreach item="item" collection="userCodesPage" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    <!--删除角色-删除角色关联的用户信息-->
+    <delete id="deleteRolesUser" parameterType="java.util.HashMap">
+        delete from t_sys_user_role
+        where 1 = 1
+        <if test="role_code != null and role_code != ''">
+            and role_code = #{role_code}
+        </if>
+        <if test="roleCodes != null and roleCodes != ''">
+            and role_code in
+            <foreach item="item" index="index" collection="roleCodes" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </delete>
+
+    <delete id="deleteRoleMenu">
+        delete from t_sys_role_menu
+        where role_code = #{role_code}
+    </delete>
+    <!--角色管理-菜单授权，新增角色菜单-->
+    <insert id="insertRoleMenu" parameterType="com.neusoft.webauth.role.entity.RoleMenu">
+        insert into t_sys_role_menu
+        (id,
+        role_code,
+        menu_code,
+        gmt_create,
+        create_by,
+        is_deleted,
+        gmt_modified,
+        last_modified_by,
+        sort_no)
+        values
+        <foreach collection="menuCodes" item="item"  index="index" open="" close="" separator="," >
+            (uuid(),
+            #{roleCode},
+            #{item},
+            now(),
+            #{createBy},
+            0,
+            now(),
+            #{createBy},
+            0)
+        </foreach>
+    </insert>
+
+    <!-- 查询角色菜单按钮 -->
+    <select id="getMenuRoleBtn" parameterType="com.neusoft.webauth.menu.entity.MenuBtn" resultType="com.neusoft.webauth.menu.entity.MenuBtn">
+        select distinct a.button_code, a.button_name, a.button_style, a.button_url,a.remark,a.version
+        from t_sys_menu_button a, t_sys_role_menu_button b
+        where a.button_code = b.button_code
+        and a.is_deleted = 0
+        <choose>
+            <when test="buttonCode != null and buttonCode != ''">
+                and a.parent_button_code = #{buttonCode}
+            </when>
+            <otherwise>
+                and a.level = 1
+            </otherwise>
+        </choose>
+        and b.menu_code = #{menuCode}
+        and b.role_code in (
+          select r.role_code
+          from t_sys_user u, t_sys_user_role r
+          where u.user_code = r.user_code
+          and u.user_acct = #{userAcct}
+          and u.is_deleted = 0
+          and r.is_deleted = 0
+        )
+        order by a.sort_no
+    </select>
+
+    <!--删除角色菜单-->
+    <delete id="deleteRoleMenuBy" parameterType="map">
+        delete from t_sys_role_menu where role_code in
+        <foreach item="item" index="index" collection="roleCodes" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <!--角色管理-用户授权，授权，删除当前页绑定的用户角色信息-->
+    <delete id="deleteRoleUsers" parameterType="com.neusoft.webauth.role.entity.RoleUserDTO">
+        delete from t_sys_user_role
+        where role_code = #{roleCode}
+        <if test="userCodesPage != null and userCodesPage.size() > 0">
+            and user_code in
+            <foreach item="item" index="index" collection="userCodesPage" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </delete>
+    <!--角色管理-用户授权，授权，新增角色用户关联关系-->
+    <insert id="insertRoleUsers" parameterType="com.neusoft.webauth.role.entity.RoleUserDTO">
+        insert into t_sys_user_role
+        (id,
+        role_code,
+        user_code,
+        gmt_create,
+        create_by,
+        is_default,
+        is_deleted,
+        sort_no,
+        gmt_modified,
+        last_modified_by,
+        version)
+        values
+        <foreach collection="userCodesChecked" item="tag"  index="index" open="" close="" separator="," >
+            (uuid(),
+            #{roleCode},
+            #{tag},
+            now(),
+            #{createBy},
+            0,
+            0,
+            0,
+            now(),
+            #{createBy},
+            0)
+        </foreach>
+    </insert>
+</mapper>

@@ -1,0 +1,26 @@
+server:
+  port: 8021
+eureka:
+  instance:
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+    prefer-ip-address: true
+    status-page-url: http://${spring.cloud.client.ipAddress}:${server.port}/swagger-ui.html
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:8761/eureka/
+spring:
+  application:
+      name: sc-xzsd-app
+  zipkin:
+    base-url: http://127.0.0.1:9411/
+management:
+  security:
+    enabled: false
+logging:
+  level:
+    root: info
+    druid.sql.ResultSet: debug
+    druid.sql.Statement: debug
+
+
+

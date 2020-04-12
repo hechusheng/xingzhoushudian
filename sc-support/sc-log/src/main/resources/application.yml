@@ -1,0 +1,22 @@
+server:
+  port: 8010
+spring:
+  application:
+    name: sc-log
+  datasource:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://10.100.12.20:4506/xzsdcs?useUnicode=true&characterEncoding=utf-8&useSSL=false
+      username: root
+      password: 123456
+  jpa:
+    hibernate:
+      #ddl-auto: create #ddl-auto:设为create表示每次都重新建表
+      ddl-auto: update #ddl-auto:设为update表示每次都不会重新建表
+    show-sql: true
+sc:
+  cloud:
+    log:
+      rocket-mq:
+        namesrv-addr: 10.9.25.24:9876
+        topic: log
+        batch-max-size: 10

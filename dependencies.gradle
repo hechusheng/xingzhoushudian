@@ -1,0 +1,12 @@
+ext {
+    dependencies = [
+            "commonsLang3": "org.apache.commons:commons-lang3:3.7",
+            "commonsBeanutils"   : "commons-beanutils:commons-beanutils:1.9.3",
+            "guava"       : "com.google.guava:guava:18.0",
+            'gson'        : 'com.google.code.gson:gson:2.8.2',
+            'pagehelper'  : 'com.github.pagehelper:pagehelper-spring-boot-starter:1.2.3',
+            'druid'       : 'com.alibaba:druid-spring-boot-starter:1.1.6'
+
+
+    ]
+}

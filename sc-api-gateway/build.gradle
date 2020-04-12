@@ -1,0 +1,16 @@
+dependencies {
+    compile 'org.springframework.cloud:spring-cloud-starter-zuul',
+            'org.springframework.cloud:spring-cloud-starter-eureka',
+            'org.springframework.cloud:spring-cloud-starter-oauth2',
+            'org.springframework.cloud:spring-cloud-starter-sleuth',
+            'org.springframework.cloud:spring-cloud-sleuth-zipkin',
+            "de.codecentric:spring-boot-admin-starter-client:${springBootAdminVersion}",
+            'org.springframework.boot:spring-boot-starter-web',
+            rootProject.ext.dependencies.commonsLang3,
+            rootProject.ext.dependencies.guava,
+            project(':sc-common:sc-core'),
+            project(":sc-common:sc-common-log")
+
+    compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
+
+}

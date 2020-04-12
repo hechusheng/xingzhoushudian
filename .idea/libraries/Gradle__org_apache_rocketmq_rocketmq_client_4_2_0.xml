@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: org.apache.rocketmq:rocketmq-client:4.2.0">
+    <CLASSES>
+      <root url="jar://D:/gradle-5.6.4/caches/modules-2/files-2.1/org.apache.rocketmq/rocketmq-client/4.2.0/971a56b8152f0618e620a101800556daf08b4e41/rocketmq-client-4.2.0.jar!/" />
+      <root url="jar://D:/gradle/gradle-5.6.4/caches/modules-2/files-2.1/org.apache.rocketmq/rocketmq-client/4.2.0/971a56b8152f0618e620a101800556daf08b4e41/rocketmq-client-4.2.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://D:/gradle-5.6.4/caches/modules-2/files-2.1/org.apache.rocketmq/rocketmq-client/4.2.0/624934dac13bfcb21d2635575b2081075a0c2180/rocketmq-client-4.2.0-sources.jar!/" />
+      <root url="jar://D:/gradle/gradle-5.6.4/caches/modules-2/files-2.1/org.apache.rocketmq/rocketmq-client/4.2.0/624934dac13bfcb21d2635575b2081075a0c2180/rocketmq-client-4.2.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

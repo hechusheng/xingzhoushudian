@@ -1,0 +1,9 @@
+dependencies {
+    compile 'org.springframework.cloud:spring-cloud-starter-eureka',
+            'org.springframework.boot:spring-boot-starter-web',
+            project(':sc-common:sc-common-client'),
+            project(":sc-common:sc-common-log"),
+            project(':sc-provider-api:sc-service-api')
+
+
+}

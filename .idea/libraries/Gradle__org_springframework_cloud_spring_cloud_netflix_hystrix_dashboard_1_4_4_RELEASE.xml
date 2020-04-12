@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: org.springframework.cloud:spring-cloud-netflix-hystrix-dashboard:1.4.4.RELEASE">
+    <CLASSES>
+      <root url="jar://D:/gradle-5.6.4/caches/modules-2/files-2.1/org.springframework.cloud/spring-cloud-netflix-hystrix-dashboard/1.4.4.RELEASE/338b8ebacf816634a8eb9576df81878d1536c750/spring-cloud-netflix-hystrix-dashboard-1.4.4.RELEASE.jar!/" />
+      <root url="jar://D:/gradle/gradle-5.6.4/caches/modules-2/files-2.1/org.springframework.cloud/spring-cloud-netflix-hystrix-dashboard/1.4.4.RELEASE/338b8ebacf816634a8eb9576df81878d1536c750/spring-cloud-netflix-hystrix-dashboard-1.4.4.RELEASE.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://D:/gradle-5.6.4/caches/modules-2/files-2.1/org.springframework.cloud/spring-cloud-netflix-hystrix-dashboard/1.4.4.RELEASE/c60fbc9c3b54c194287249f002da1b2cfe144c17/spring-cloud-netflix-hystrix-dashboard-1.4.4.RELEASE-sources.jar!/" />
+      <root url="jar://D:/gradle/gradle-5.6.4/caches/modules-2/files-2.1/org.springframework.cloud/spring-cloud-netflix-hystrix-dashboard/1.4.4.RELEASE/c60fbc9c3b54c194287249f002da1b2cfe144c17/spring-cloud-netflix-hystrix-dashboard-1.4.4.RELEASE-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

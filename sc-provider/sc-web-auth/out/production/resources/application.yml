@@ -1,0 +1,51 @@
+security:
+  oauth2:
+    resource:
+      prefer-token-info: true
+      token-info-uri: http://sc-security-uaa/oauth/token
+      jwt:
+        key-value: secret
+#        key-uri: http://sc-security-uaa/oauth/token_key
+    client:
+      client-id: client
+      client-secret: client
+      grant-type: client_credentials
+      access-token-uri: http://sc-security-uaa/oauth/token
+      user-authorization-uri: http://sc-security-uaa/oauth/authorize
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://10.100.12.20:4506/xzsdcs?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: 123456
+    druid:
+      initialSize: 1
+      minIdle: 1
+      maxActive: 20
+      maxWait: 60000
+      validationQuery: select 'x' from dual
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      filters: stat,slf4j
+  cloud:
+    loadbalancer:
+      retry:
+        enabled: false
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/**/*Mapper.xml
+  config-location: classpath:mybatis/mybatis-config.xml
+sc:
+  cloud:
+    debug: true
+    task:
+      core-pool-size: 20
+      max-pool-size: 50
+      queue-capacity: 200
+      keep-alive-seconds: 3000
+      thread-name-prefix: sc-task-executor-
+    swagger:
+      enabled: true
+      description: '系统管理-权限'

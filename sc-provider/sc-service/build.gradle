@@ -1,0 +1,13 @@
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-web',
+            'org.springframework.cloud:spring-cloud-starter-eureka',
+            'org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.1',
+            'mysql:mysql-connector-java:5.1.38',
+            rootProject.ext.dependencies.commonsLang3,
+            rootProject.ext.dependencies.guava,
+            rootProject.ext.dependencies.pagehelper,
+            rootProject.ext.dependencies.druid,
+            project(':sc-common:sc-common-client'),
+            project(":sc-common:sc-common-log"),
+            project(':sc-provider-api:sc-service-api')
+}

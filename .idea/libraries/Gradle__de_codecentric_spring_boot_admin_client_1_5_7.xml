@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: de.codecentric:spring-boot-admin-client:1.5.7">
+    <CLASSES>
+      <root url="jar://D:/gradle-5.6.4/caches/modules-2/files-2.1/de.codecentric/spring-boot-admin-client/1.5.7/a7591d3113d453a9055d45babb6588077c857f94/spring-boot-admin-client-1.5.7.jar!/" />
+      <root url="jar://D:/gradle/gradle-5.6.4/caches/modules-2/files-2.1/de.codecentric/spring-boot-admin-client/1.5.7/a7591d3113d453a9055d45babb6588077c857f94/spring-boot-admin-client-1.5.7.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://D:/gradle-5.6.4/caches/modules-2/files-2.1/de.codecentric/spring-boot-admin-client/1.5.7/1ef3d54d8f30e469381f2ac6e5581e039d12655c/spring-boot-admin-client-1.5.7-sources.jar!/" />
+      <root url="jar://D:/gradle/gradle-5.6.4/caches/modules-2/files-2.1/de.codecentric/spring-boot-admin-client/1.5.7/1ef3d54d8f30e469381f2ac6e5581e039d12655c/spring-boot-admin-client-1.5.7-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

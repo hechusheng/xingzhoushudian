@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.neusoft.webauth.post.dao.PostDao">
+    <resultMap id="BaseResultMap" type="com.neusoft.webauth.post.entity.PostInfo" >
+        <id column="post_code" property="postCode" jdbcType="VARCHAR" />
+        <result column="post_name" property="postName" jdbcType="VARCHAR" />
+        <result column="post_name_j" property="postNameJ" jdbcType="VARCHAR" />
+        <result column="dept_code" property="deptCode" jdbcType="VARCHAR" />
+        <result column="is_deleted" property="isDeleted" jdbcType="INTEGER" />
+        <result column="id" property="id" jdbcType="VARCHAR" />
+        <result column="sort_no" property="sortNo" jdbcType="INTEGER" />
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+        <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+        <result column="last_modified_by" property="lastModifiedBy" jdbcType="VARCHAR" />
+        <result column="version" property="version" jdbcType="INTEGER" />
+    </resultMap>
+
+    <!--查询所有岗位（分页）-->
+    <select id="listPostsByPage" resultMap="BaseResultMap">
+        select
+              a.post_code,
+              a.post_name,
+              a.post_name_j,
+              a.dept_code,
+              b.dept_name,
+              a.is_deleted,
+              a.id,
+              a.sort_no,
+              a.gmt_create,
+              a.create_by,
+              a.gmt_modified,
+              a.last_modified_by,
+              a.version
+        from
+              t_sys_post a,t_sys_dept b
+        where a.dept_code=b.dept_code
+        and   a.is_deleted = 0
+        and   b.is_deleted = 0
+        <if test="postName != null and postName != ''">
+            and a.post_name like concat('%', #{postName}, '%')
+        </if>
+        order by gmt_create desc
+    </select>
+    <!--查询所有岗位-->
+    <select id="getAllPosts" resultMap="BaseResultMap">
+        select
+              post_code,
+              post_name,
+              post_name_j,
+              dept_code,
+              is_deleted,
+              id,
+              sort_no,
+              gmt_create,
+              create_by,
+              gmt_modified,
+              last_modified_by
+        from
+             t_sys_post
+        where is_deleted = 0
+    </select>
+
+    <select id="getBmStations" resultMap="BaseResultMap">
+        select
+          id,
+          post_code,
+          post_name,
+          post_name_j,
+          dept_code,
+          sort_no
+        from t_sys_post
+        where dept_code = #{dept_code}
+    </select>
+
+    <select id="getUserGws" resultType="java.lang.String">
+        select
+          post_code
+        from t_sys_user_post
+        where user_code = #{userCode}
+    </select>
+
+    <!--新增岗位-->
+    <insert id="insertPost" parameterType="com.neusoft.webauth.post.entity.PostInfo">
+        insert into t_sys_post (
+	      post_code,
+	      post_name,
+	      post_name_j,
+	      dept_code,
+	      is_deleted,
+	      id,
+	      sort_no,
+	      gmt_create,
+	      create_by,
+	      gmt_modified,
+	      last_modified_by,
+	      version
+        ) values (
+         #{postCode,jdbcType=VARCHAR},
+         #{postName,jdbcType=VARCHAR},
+         #{postNameJ,jdbcType=VARCHAR},
+         #{deptCode,jdbcType=VARCHAR},
+         0,
+         #{id,jdbcType=VARCHAR},
+         0,
+         now(),
+         #{createBy,jdbcType=VARCHAR},
+         now(),
+         #{createBy,jdbcType=VARCHAR},
+         0)
+    </insert>
+    <!--用户管理-删除-删除用岗位-->
+    <delete id="deleteUsersPost" parameterType="com.neusoft.webauth.user.entity.UserSettingDTO">
+        delete from t_sys_user_post
+        where user_code in
+        <foreach item="item" index="index" collection="userList" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+    <!--更新岗位信息-->
+    <update id="updatePostInfo" parameterType="com.neusoft.webauth.post.entity.PostInfo">
+        update t_sys_post
+           set
+              post_name = #{postName,jdbcType=VARCHAR},
+              post_name_j = #{postNameJ,jdbcType=VARCHAR},
+              dept_code = #{deptCode,jdbcType=VARCHAR},
+              gmt_modified = now(),
+              last_modified_by =#{lastModifiedBy,jdbcType=VARCHAR},
+              version = version + 1
+        where post_code = #{postCode,jdbcType=VARCHAR}
+          and is_deleted = 0
+          and version =  #{version,jdbcType=VARCHAR}
+    </update>
+    <!--删除岗位信息-->
+    <update id="deletePostInfo" parameterType="com.neusoft.webauth.post.entity.PostsSetDTO">
+        update t_sys_post
+        set
+            is_deleted = 1,
+            gmt_modified = now(),
+            last_modified_by = #{lastModifiedBy},
+            version = version + 1
+        where post_code in
+        <foreach item="item" index="index" collection="postList" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+    <!--删除用户岗位-->
+    <delete id="deleteUsersPostByPost" parameterType="com.neusoft.webauth.post.entity.PostsSetDTO">
+        delete from
+        t_sys_user_post
+        where
+        post_code in
+        <foreach item="item" index="index" collection="postList" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+
+    <!--查询部门表中所有部门-->
+    <select id="getDeptsList" resultType="com.neusoft.webauth.post.entity.PostInfo">
+        select
+              dept_code as oldDeptCode,
+              dept_name
+        from t_sys_dept
+        where is_deleted = 0
+    </select>
+
+    <select id="getRoleAssginUser" resultType="java.lang.String" parameterType="java.util.HashMap">
+        select user_code id
+        from t_sys_user_role
+        where role_code = #{role_code}
+        and user_code IN
+        <foreach item="item" index="index" collection="user_codes" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <!--校验岗位名称是否存在-->
+    <select id="countPostName" parameterType="com.neusoft.webauth.post.entity.PostInfo" resultType="int">
+        select count(1)
+          from t_sys_post
+         where is_deleted = 0
+           and post_name = #{postName}
+        <if test="postCode != null and postCode != ''">
+           and post_code != #{postCode}
+        </if>
+    </select>
+    <!--删除未选中部门的用户岗位信息-->
+    <delete id="deleteUserPostUncheked" parameterType="com.neusoft.webauth.user.entity.UserSettingDTO">
+        delete from t_sys_user_post
+         where post_code not in (select post_code
+                                   from t_sys_post
+                                  where is_deleted = 0
+                                    and dept_code in
+                                    <foreach collection="deptList" item="item" separator="," open="(" close=")">
+                                        #{item}
+                                    </foreach>
+                                )
+    </delete>
+    <!--用户管理-设置岗位，查询用户授权部门下的全部岗位-->
+    <select id="listPostByUserDeptByPage" resultMap="BaseResultMap">
+        select
+            a.post_code,
+            a.post_name,
+            a.post_name_j,
+            a.dept_code,
+            a.version,
+            b.dept_name
+        from
+            t_sys_post a,
+            t_sys_dept b,
+            (
+                select
+                    dept_code
+                from
+                    t_sys_user_dept
+                where
+                    user_code = #{userCode}
+            ) c
+        where
+            a.dept_code = b.dept_code
+        and b.dept_code = c.dept_code
+        and a.is_deleted = 0
+        and b.is_deleted = 0
+        <if test="postName != null and postName != ''">
+            and a.post_name like concat('%', #{postName}, '%')
+        </if>
+        order by a.gmt_create desc
+    </select>
+    <!--用户管理-设置岗位，查询用户已授权的岗位-->
+    <select id="listUserPosts" parameterType="map" resultType="string">
+        select
+            post_code
+        from
+            t_sys_user_post
+        where
+            user_code = #{userCode}
+        and post_code in
+        <foreach collection="postList" item="item" open="(" close=")" separator=",">
+            #{item.postCode}
+        </foreach>
+    </select>
+    <!--用户管理-设置岗位，保存，删除当前页的用户岗位信息-->
+    <delete id="deleteCurPageUserPosts" parameterType="com.neusoft.webauth.user.entity.UserSettingDTO">
+        delete
+        from
+            t_sys_user_post
+        where
+            user_code = #{userCode}
+        and post_code in
+        <foreach collection="postInfoList" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+    <!--用户管理-设置岗位，保存，新增用户岗位-->
+    <insert id="insertUserPosts" parameterType="com.neusoft.webauth.user.entity.UserSettingDTO">
+        insert into t_sys_user_post (
+            id,
+            user_code,
+            post_code,
+            gmt_create,
+            create_by,
+            sort_no,
+            is_deleted,
+            gmt_modified,
+            last_modified_by
+        )
+        values
+        <foreach collection="postList" separator="," item="item">
+            (
+                uuid(),
+                #{userCode},
+                #{item},
+                now(),
+                #{createBy},
+                0,
+                0,
+                now(),
+                #{createBy}
+            )
+        </foreach>
+    </insert>
+</mapper>

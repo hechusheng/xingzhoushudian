@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.neusoft.project.demo.dao.DemoDao">
+
+    <sql id="Base_Column_List">
+        `id`,
+        `name`,
+        `sex`,
+        `birth`,
+        `department`,
+        `address`,
+        `gmt_create`,
+        `gmt_modified`,
+        `operator`
+    </sql>
+
+    <resultMap id="BaseResultMap" type="com.neusoft.project.demo.entity.StudentEntity">
+        <result column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="sex" property="sex" jdbcType="VARCHAR"/>
+        <result column="birth" property="birth" jdbcType="VARCHAR"/>
+        <result column="department" property="department" jdbcType="VARCHAR"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
+        <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/>
+        <result column="operator" property="operator" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="listStudentsByPage" resultType="com.neusoft.project.demo.entity.StudentEntity">
+        select *
+        from demo_student t
+        where t.flag = 1
+        <if test="name != null and name != '' ">
+            and t.name like concat('%', concat(#{name}, '%'))
+        </if>
+    </select>
+
+    <insert id="saveStudent" parameterType="com.neusoft.project.demo.entity.StudentEntity">
+        insert into demo_student
+        (name, sex, birth, department, address, gmt_create, gmt_modified, operator, flag)
+        values
+            (#{name}, #{sex}, #{birth}, #{department}, #{address}, #{gmtCreate}, #{gmtModified}, #{operator}, 1)
+    </insert>
+
+    <update id="removeStudent" parameterType="com.neusoft.project.demo.entity.StudentEntity">
+        update demo_student
+        set flag         = 0,
+            gmt_modified = #{gmtModified},
+            operator     = #{operator}
+        where id = #{id}
+    </update>
+
+    <update id="updateStudent" >
+        UPDATE demo_student
+        <set>
+            <if test="studentEntity.name != null"> `name`= #{studentEntity.name,jdbcType=VARCHAR},</if>
+            <if test="studentEntity.sex != null"> `sex`= #{studentEntity.sex,jdbcType=VARCHAR},</if>
+            <if test="studentEntity.birth != null"> `birth`= #{studentEntity.birth,jdbcType=VARCHAR},</if>
+            <if test="studentEntity.department != null"> `department`= #{studentEntity.department,jdbcType=VARCHAR},</if>
+            <if test="studentEntity.address != null"> `address`= #{studentEntity.address,jdbcType=VARCHAR},</if>
+            <if test="studentEntity.gmtCreate != null"> `gmt_create`= #{studentEntity.gmtCreate,jdbcType=TIMESTAMP},</if>
+            <if test="studentEntity.gmtModified != null"> `gmt_modified`= #{studentEntity.gmtModified,jdbcType=TIMESTAMP},</if>
+            <if test="studentEntity.operator != null"> `operator`= #{studentEntity.operator,jdbcType=VARCHAR}</if>
+        </set>
+        WHERE `id` = #{studentEntity.id,jdbcType=VARCHAR}
+    </update>
+
+
+</mapper>

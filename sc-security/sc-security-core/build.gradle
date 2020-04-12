@@ -1,0 +1,10 @@
+dependencies {
+    compile 'org.springframework.cloud:spring-cloud-starter-oauth2',
+            'com.github.botaruibo:xvcode:1.0',
+            rootProject.ext.dependencies.commonsLang3,
+            'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.1',
+            'org.springframework.data:spring-data-redis',
+            project(":sc-common:sc-core")
+
+    compileOnly "org.springframework.boot:spring-boot-configuration-processor"
+}

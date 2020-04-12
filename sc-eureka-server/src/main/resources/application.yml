@@ -1,0 +1,31 @@
+#服务端口
+server:
+  port: 8761
+spring:
+  application:
+    name: sc-eureka-server
+eureka:
+  client:
+    #是否注册自己
+    registerWithEureka: false
+    #获取客户端信息
+    fetchRegistry: false
+  server:
+    enable-self-preservation: false
+management:
+  security:
+    enabled: false
+sc:
+  cloud:
+    rocketmq:
+      logging: true
+      tag: tag
+      topic: log
+      producer-group: default
+      name-server-address: 10.9.25.24:9876
+
+
+
+
+
+

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.neusoft.job.dao.JobDao">
+
+    <select id="listScheduleJob" resultType="com.neusoft.job.entity.ScheduleJob">
+        SELECT t.id,
+        t.job_name,
+        t.status,
+        t.cron_expression as cron,
+        t.is_sync,
+        t.description,
+        t.gmt_create,
+        t.service_id,
+        t.url
+        FROM t_sys_schedule t
+        where t.flag='1'
+        <if test="jobName!=null and jobName!='' ">
+            and t.job_name like concat(concat('%',#{jobName}),'%')
+        </if>
+        order by t.gmt_create
+    </select>
+
+    <select id="getScheduleJobById" resultType="com.neusoft.job.entity.ScheduleJob">
+        SELECT *
+        FROM t_sys_schedule t
+        WHERE t.id = #{jobId}
+    </select>
+
+    <insert id="saveScheduleJob" keyProperty="id" useGeneratedKeys="true" parameterType="com.neusoft.job.entity.ScheduleJob">
+        INSERT INTO t_sys_schedule
+        (job_name, job_group, status, cron_expression, is_sync, description, service_id, url, gmt_create)
+        VALUES
+            (#{jobName}, #{jobGroup}, #{status}, #{cron}, #{isSync}, #{description}, #{serviceId}, #{url}, #{gmtCreate})
+    </insert>
+
+    <insert id="saveScheduleJobParams">
+        INSERT INTO t_sys_schedule_params
+        (job_id,name,value,gmt_create,flag)
+        VALUES
+        <foreach collection="params" index="key" item="value" separator=",">
+            (#{jobId},#{key},#{value},now(),1)
+        </foreach>
+    </insert>
+
+    <update id="deleteScheduleJob">
+        UPDATE t_sys_schedule t
+        SET t.flag = '0'
+        WHERE t.id = #{jobId}
+    </update>
+
+    <update id="updateJobStatus">
+        UPDATE t_sys_schedule t
+        SET status = #{status}
+        WHERE t.id = #{jobId}
+    </update>
+
+    <update id="updateJobCronExpression">
+        UPDATE t_sys_schedule t
+        SET cron_expression = #{cronExpression}
+        WHERE id = #{jobId}
+    </update>
+
+
+    <insert id="saveJobExecutionLog" keyProperty="id" useGeneratedKeys="true" parameterType="com.neusoft.job.entity.JobExecutionLog">
+        INSERT INTO t_sys_schedule_execution_log
+        (job_id, job_name, trigger_name, is_success, start_time, remote_url)
+        VALUES
+            (#{jobId}, #{jobName}, #{triggerName}, #{isSuccess}, #{startTime}, #{remoteUrl})
+    </insert>
+
+    <update id="updateJobExecutionLog" parameterType="com.neusoft.job.entity.JobExecutionLog">
+        UPDATE t_sys_schedule_execution_log t
+        set t.return_status_code=#{returnStatusCode},
+        t.is_success=#{isSuccess},
+        t.complete_time=#{completeTime}
+        <if test="failureCause != null and failureCause!=''">
+            ,t.failure_cause=#{failureCause}
+        </if>
+        WHERE t.id = #{id}
+    </update>
+
+    <select id="listJobExecutionLog" resultType="com.neusoft.job.entity.JobExecutionLog">
+        SELECT *
+        FROM t_sys_schedule_execution_log t
+        ORDER BY t.start_time
+    </select>
+
+
+</mapper>

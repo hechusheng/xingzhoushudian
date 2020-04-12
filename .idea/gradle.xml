@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="distributionType" value="LOCAL" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleHome" value="D:/gradle-4.3.1" />
+        <option name="gradleJvm" value="#JAVA_HOME" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/sc-api-gateway" />
+            <option value="$PROJECT_DIR$/sc-common" />
+            <option value="$PROJECT_DIR$/sc-common/sc-common-base" />
+            <option value="$PROJECT_DIR$/sc-common/sc-common-client" />
+            <option value="$PROJECT_DIR$/sc-common/sc-common-log" />
+            <option value="$PROJECT_DIR$/sc-common/sc-common-util" />
+            <option value="$PROJECT_DIR$/sc-common/sc-core" />
+            <option value="$PROJECT_DIR$/sc-config-server" />
+            <option value="$PROJECT_DIR$/sc-eureka-server" />
+            <option value="$PROJECT_DIR$/sc-monitor" />
+            <option value="$PROJECT_DIR$/sc-monitor/sc-admin-server" />
+            <option value="$PROJECT_DIR$/sc-monitor/sc-zipkin-server" />
+            <option value="$PROJECT_DIR$/sc-provider" />
+            <option value="$PROJECT_DIR$/sc-provider-api" />
+            <option value="$PROJECT_DIR$/sc-provider-api/sc-service-api" />
+            <option value="$PROJECT_DIR$/sc-provider/sc-project" />
+            <option value="$PROJECT_DIR$/sc-provider/sc-service" />
+            <option value="$PROJECT_DIR$/sc-provider/sc-web" />
+            <option value="$PROJECT_DIR$/sc-provider/sc-web-auth" />
+            <option value="$PROJECT_DIR$/sc-provider/sc-xzsd-app" />
+            <option value="$PROJECT_DIR$/sc-provider/sc-xzsd-pc" />
+            <option value="$PROJECT_DIR$/sc-security" />
+            <option value="$PROJECT_DIR$/sc-security/sc-security-client" />
+            <option value="$PROJECT_DIR$/sc-security/sc-security-core" />
+            <option value="$PROJECT_DIR$/sc-security/sc-security-uaa" />
+            <option value="$PROJECT_DIR$/sc-support" />
+            <option value="$PROJECT_DIR$/sc-support/sc-job" />
+            <option value="$PROJECT_DIR$/sc-support/sc-log" />
+            <option value="$PROJECT_DIR$/sc-support/sc-shardingjdbc" />
+            <option value="$PROJECT_DIR$/sc-web-static" />
+          </set>
+        </option>
+        <option name="useAutoImport" value="true" />
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>

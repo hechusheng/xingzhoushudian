@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xzsd.pc.commoditySort.dao.CmdSortDao">
+    <!--统计分类数量-->
+    <select id="countSortName" parameterType="com.xzsd.pc.commoditySort.entity.CmdSortInfo" resultType="int">
+        select
+            count(sort_code)
+        from
+            t_commodity_sort
+        where
+            is_delete = 0
+        and
+            sort_name = #{sortName}
+    </select>
+    <!--新增商品分类-->
+    <insert id="addCommoditySort" parameterType="com.xzsd.pc.commoditySort.entity.CmdSortInfo" >
+        insert into t_commodity_sort
+            (sort_code,
+             sort_name,
+             remark,
+             sort_level,
+             parent_code,
+             is_delete,
+             create_time,
+             create_user,
+             update_time,
+             update_user,
+             version)
+        values
+            (
+            #{sortCode},
+            #{sortName},
+            #{remark},
+            <if test="firstSortCode==null or firstSortCode==''">
+                1,
+            </if>
+            <if test="firstSortCode!=null and firstSortCode!=''">
+                2,
+            </if>
+            #{firstSortCode},
+            #{isDelete},
+            now(),
+            #{createUser},
+            now(),
+            #{updateUser},
+            0)
+    </insert>
+    <!--获取分类信息-->
+    <select id="findSortByCode" parameterType="java.lang.String" resultType="com.xzsd.pc.commoditySort.entity.CmdSortInfo">
+        select
+             sort_code sortCode,
+             sort_name sortName,
+             remark remark,
+             sort_level sortLevel,
+             parent_code parentCode,
+             is_delete isDelete,
+             create_time createTime,
+             create_user createUser,
+             update_time updateTime,
+             update_user updateUser,
+             version version
+        from
+            t_commodity_sort
+        where
+            sort_code = #{sortCode}
+        and  is_delete = 0
+    </select>
+    <!--修改商品分类信息-->
+    <update id="updateSort" parameterType="com.xzsd.pc.commoditySort.entity.CmdSortInfo">
+        update t_commodity_sort
+        set
+            sort_name = #{sortName},
+            remark = #{remark},
+            version = version + 1
+        where sort_code = #{sortCode}
+        and version = #{version}
+    </update>
+<!--查询商品分类列表-->
+    <resultMap id="cmdSortListMap" type="com.xzsd.pc.commoditySort.entity.FirstClassSort">
+        <id property="firstSortCode" column="sort_code" jdbcType="VARCHAR"/>
+        <result property="firstSortName" column="sort_name" jdbcType="VARCHAR"/>
+        <collection property="secondsortList" ofType="com.xzsd.pc.commoditySort.entity.SecondClassSort">
+            <id property="secondSortCode" column="sort_code" jdbcType="VARCHAR"/>
+            <result property="secondSortName" column="sort_name" jdbcType="VARCHAR"/>
+        </collection>
+    </resultMap>
+    <select id="listSorts" resultMap="cmdSortListMap">
+        select
+            a.sort_code ,
+            a.sort_name ,
+            b.sort_code secondSortCode,
+            b.sort_name secondSortName
+        from
+            t_commodity_sort a
+        LEFT JOIN
+            t_commodity_sort b
+        on
+            (b.parent_code = a.sort_code)
+        where
+            a.sort_level=1
+        and
+            b.sort_level=2
+        and
+            b.is_delete=0
+        order by
+            a.create_time desc
+    </select>
+    <!--查询该一级分类下二级分类的数量-->
+    <select id="countChildSort" parameterType="java.lang.String" resultType="int">
+        select count(sort_code)
+        from t_commodity_sort
+        where parent_code = #{sortCode} and is_delete = 0
+    </select>
+    <!--删除商品分类-->
+    <update id="deleteSort" parameterType="com.xzsd.pc.commoditySort.entity.CmdSortInfo">
+        update t_commodity_sort
+        set
+            is_delete = 1,
+            update_time = now(),
+            update_user = #{userId},
+            version = version + 1
+        where
+            sort_code = #{sortCode}
+    </update>
+</mapper>

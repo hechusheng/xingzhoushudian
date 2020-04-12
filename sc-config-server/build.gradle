@@ -1,0 +1,5 @@
+dependencies {
+    compile 'org.springframework.cloud:spring-cloud-config-server',
+            'org.springframework.cloud:spring-cloud-starter-eureka',
+            'org.springframework.boot:spring-boot-starter-actuator'
+}

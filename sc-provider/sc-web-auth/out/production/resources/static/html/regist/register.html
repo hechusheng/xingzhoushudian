@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+    <title>注册</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link href="../../css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/login.css" rel="stylesheet">
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <style>
+        .loginHtml{
+            width: 50%;
+            margin: 0 auto;
+        }
+        .findPwd{
+            margin-left: 10px;
+        }
+        .register{
+            margin-right: 10px;
+        }
+        .loginTitle{
+            text-align: center;
+            padding-bottom: 10px;
+        }
+        .tips{
+            color:red;
+            display:none;
+        }
+    </style>
+
+</head>
+
+<body class="signin">
+<div class="signinpanel">
+    <div class="row">
+        <!--<div class="col-sm-7">
+            <div class="signin-info">
+                <div class="logopanel m-b">
+                    <h1>SC</h1>
+                </div>
+                <div class="m-b"></div>
+                <h4>欢迎使用 <strong></strong></h4>
+                <strong>还没有账号？ <a href="#">立即注册&raquo;</a></strong>
+            </div>
+        </div>-->
+        <div class="loginHtml" style="">
+            <div class="loginInner">
+                <h4 class="no-margins loginTitle">注册</h4>
+                <span class="tips" id="userN">用户名不能为空！</span>
+                <p class="m-t-md"></p>
+                <input id="username" type="text" class="form-control uname" placeholder="用户名" />
+                <input id="password" type="password" class="form-control pword m-b" placeholder="密码" />
+                <a class="findPwd" href="">找回密码</a><a class="register" href="" style="float: right">注册</a>
+                <button class="btn btn-primary btn-block" id="loginAct">注册</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script type="text/javascript" src="../../js/jquery.min.js"></script>
+<script type="text/javascript"  src="../../js/common/auth.js"></script>
+<script>
+    if (window.top !== window.self) {
+        window.top.location = window.location;
+    };
+
+    $('#loginAct').on('click',function () {
+
+        var params = {
+            username :$('#username').val(),password:$('#password').val()
+        }
+        $.ajax({
+            url: '/login',
+            data: params,
+            type: 'post'
+        }).done(function (data) {
+            $("#userErr").show();
+            $("#pwdErr").hidd;
+            //var token = $.parseJSON(data.data.access_token);
+            set('token','123123');
+        }).fail(function (err) {
+            /*if(){
+                $("#userErr").style.display="block";
+                $("#pwdErr").style.display="none";
+            }else{
+                $("#userErr").style.display="none";
+                $("#pwdErr").style.display="block";
+            }*/
+        });
+    });
+    $('#register').on('click',function () {
+
+    });
+</script>
+</body>
+
+</html>

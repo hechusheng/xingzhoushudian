@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xzsd.pc.carousel.dao.CarouselDao">
+    <!--统计轮播图数量-->
+    <select id="countCarousel" parameterType="com.xzsd.pc.carousel.entity.CarouselInfo" resultType="int">
+        select
+        count(caro_num),
+        count(com_code)
+        from t_carousel
+        where is_delete = 0
+        and  com_code= #{comCode}
+        or caro_num = #{caroNum}
+        <if test="caroCode != null and caroCode != ''">
+            and caro_code != #{caroCode}
+        </if>
+    </select>
+    <!--新增轮播图-->
+    <insert id="addCarousel" parameterType="com.xzsd.pc.carousel.entity.CarouselInfo">
+        insert into t_carousel
+            (caro_code,
+             path,
+             caro_num,
+             start_time,
+             end_time,
+             com_code,
+             is_delete,
+             create_time,
+             create_user,
+             update_time,
+             update_user,
+             version)
+        values
+            (
+            #{caroCode},
+            #{path},
+            #{caroNum},
+            #{startTime},
+            #{endTime},
+            #{comCode},
+            #{isDelete},
+            now(),
+            #{createUser},
+            now(),
+            #{updateUser},
+            0)
+    </insert>
+
+    <!--查询在售商品-->
+    <select id="listComCarousel" parameterType="com.xzsd.pc.carousel.entity.CarouselInfo" resultType="com.xzsd.pc.carousel.entity.CarouselInfo">
+        SELECT
+            a.com_code comCode,
+            a.com_name comName,
+            a.com_status comStatus,
+            b.sort_name firstClassName,
+            c.sort_name secondClassName
+        FROM
+            t_commodity a
+        LEFT JOIN
+            (SELECT sort_code,sort_name,parent_code FROM t_commodity_sort) b
+        ON
+            a.sort_code = b.sort_code
+        LEFT JOIN
+            (SELECT sort_code,sort_name FROM t_commodity_sort) c
+        ON
+            c.sort_code = b.parent_code
+        WHERE
+            a.is_delete = 0
+        AND
+            a.com_status = 0
+        <if test="comName != null and comName != ''">
+            and a.com_name like concat('%', #{comName}, '%')
+        </if>
+        <if test="comCode != null and comCode != ''">
+            and a.com_code like concat('%', #{comCode}, '%')
+        </if>
+    </select>
+
+    <!--删除轮播图信息-->
+    <update id="deleteCarousel" parameterType="com.xzsd.pc.carousel.entity.CarouselInfo">
+        update t_carousel
+        set
+        is_delete = 1,
+        update_time = now(),
+        update_user = #{userId},
+        version = version + 1
+        where caro_code in
+        <foreach item="item" index="index" collection="listCode" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <!--轮播图状态修改-->
+    <update id="updateCaroStatus" parameterType="com.xzsd.pc.carousel.entity.CarouselInfo">
+        update t_carousel
+        set
+        caro_status = #{caroStatus},
+        update_time = now(),
+        update_user = #{userId},
+        version = version + 1
+        where caro_code in
+        <foreach item="item" index="index" collection="listCode" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <!--商品列表-->
+    <select id="listCarousel" parameterType="com.xzsd.pc.carousel.entity.CarouselInfo" resultType="com.xzsd.pc.carousel.entity.CarouselInfo">
+        SELECT
+            a.caro_num caorNum,
+            a.path path,
+            a.caro_status caroStatus,
+            a.start_time startTime,
+            a.end_time endTime
+        from
+            t_carousel a
+        WHERE a.is_delete = 0
+        <if test="caroStatus != null and caroStatus != ''">
+            and a.caro_status like concat('%', #{caroStatus}, '%')
+        </if>
+    </select>
+</mapper>

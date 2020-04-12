@@ -1,0 +1,35 @@
+rootProject.name = 'sc2019'
+
+include 'sc-common:sc-common-base'
+include 'sc-common:sc-core'
+include 'sc-common:sc-common-util'
+include 'sc-common:sc-common-client'
+include 'sc-common:sc-common-log'
+
+include 'sc-eureka-server'
+include 'sc-config-server'
+include 'sc-api-gateway'
+
+include 'sc-security:sc-security-core'
+include 'sc-security:sc-security-uaa'
+include 'sc-security:sc-security-client'
+
+include 'sc-monitor:sc-admin-server'
+include 'sc-monitor:sc-zipkin-server'
+
+include 'sc-support:sc-job'
+include 'sc-support:sc-log'
+include 'sc-support:sc-shardingjdbc'
+
+include 'sc-provider:sc-web-auth'
+include 'sc-provider:sc-web'
+include 'sc-provider:sc-service'
+include 'sc-provider:sc-project'
+include 'sc-provider:sc-xzsd-pc'
+include 'sc-provider:sc-xzsd-app'
+
+
+include 'sc-provider-api:sc-service-api'
+
+include 'sc-web-static'
+

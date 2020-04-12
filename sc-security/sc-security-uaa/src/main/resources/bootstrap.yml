@@ -1,0 +1,29 @@
+server:
+  port: 8071
+eureka:
+  instance:
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:8761/eureka/
+spring:
+  application:
+      name: sc-security-uaa
+  zipkin:
+    base-url: http://127.0.0.1:9411/
+  cloud:
+    config:
+      enabled: false
+      discovery:
+        service-id: config-server
+        enabled: true
+      fail-fast: false
+management:
+  security:
+    enabled: false
+
+
+
+
+
